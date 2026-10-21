@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veritas Café Tap Page</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Mukta:wght@400;500;600;700&display=swap">
+</head>
+<body>
+<style>
+:root{
+  --bg:#F5F6F3; --card:#FFFFFF; --ink:#1A211D; --muted:#5F6B64; --line:#DDE3DE;
+  --brand:#1F4D3A; --brand-ink:#FFFFFF; --brand-soft:#E3EEE8; --gold:#B7791F; --gold-soft:#FBF1DF;
+  --veg:#1E8E3E; --nonveg:#B3261E; --err:#B3261E;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#111613;--card:#1A211D;--ink:#ECF1EE;--muted:#A3B0A8;--line:#2D3832;
+  --brand:#7CC4A0;--brand-ink:#0F1A14;--brand-soft:#1F3229;--gold:#E3AE5A;--gold-soft:#33291A;
+  --veg:#5CC97A;--nonveg:#F2968F;--err:#F2968F;}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#111613;--card:#1A211D;--ink:#ECF1EE;--muted:#A3B0A8;--line:#2D3832;
+  --brand:#7CC4A0;--brand-ink:#0F1A14;--brand-soft:#1F3229;--gold:#E3AE5A;--gold-soft:#33291A;
+  --veg:#5CC97A;--nonveg:#F2968F;--err:#F2968F;}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Mukta",system-ui,sans-serif;padding-inline:16px;padding-block:20px 120px}
+.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0;text-wrap:balance}
+h1{font-size:32px;line-height:1.1}
+h2{font-size:22px}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.demo{font-size:12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:6px}
+.head{display:flex;gap:14px;align-items:center}
+.logo{width:64px;height:64px;flex:none;border-radius:16px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font:30px "DM Serif Display",Georgia,serif}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-block:8px;margin-block:-8px}
+.chips a{flex:none;font-size:14px;font-weight:600;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;padding:10px 16px;border-radius:14px;border:0;font:600 16px "Mukta",system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.btn-primary{background:var(--brand);color:var(--brand-ink)}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:focus-visible,input:focus-visible,select:focus-visible,.chips a:focus-visible,.qty button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:60px}
+.offer{background:var(--gold-soft);color:var(--ink);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:500}
+.feedback{text-align:center;font-size:14px}
+.feedback a{color:var(--muted)}
+/* menu */
+.tabs{display:flex;gap:6px;overflow-x:auto}
+.tabs button{flex:none;font:600 14px "Mukta",sans-serif;padding:6px 12px;border-radius:8px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--brand-soft);color:var(--ink)}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.dot{width:14px;height:14px;flex:none;border:1.5px solid currentColor;border-radius:3px;display:grid;place-items:center}
+.dot::after{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.dot.v{color:var(--veg)} .dot.n{color:var(--nonveg)}
+.item .info{flex:1;min-width:0}
+.item .nm{font-weight:600;line-height:1.3}
+.item .ds{font-size:13px;color:var(--muted);line-height:1.35}
+.price{font-variant-numeric:tabular-nums;font-weight:600}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:32px;height:32px;border-radius:8px;border:1px solid var(--brand);background:var(--card);color:var(--brand);font:700 18px "Mukta",sans-serif;cursor:pointer;line-height:1}
+.qty .add{width:auto;padding:0 14px;font-size:14px}
+.qty span{min-width:18px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+/* wifi */
+.wifi{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:15px}
+.wifi b{font-weight:600}
+/* forms */
+label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:500}
+input,select{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.check{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;color:var(--muted);font-size:13px;line-height:1.45}
+.check input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--brand)}
+.err{color:var(--err);font-size:13px;min-height:1em}
+.ok{color:var(--brand);font-weight:600}
+/* stamps */
+.stamps{display:flex;gap:10px;justify-content:center}
+.stamp{width:44px;height:44px;border-radius:50%;border:2px dashed var(--line);display:grid;place-items:center;font-size:20px;color:var(--muted)}
+.stamp.on{border:2px solid var(--gold);background:var(--gold-soft);color:var(--gold)}
+/* cart bar + sheet */
+.cartbar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:10}
+.cartbar .btn{max-width:460px;margin:0 auto;justify-content:space-between}
+.sheet{position:fixed;inset:0;background:rgba(10,15,12,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet .inner{background:var(--card);width:100%;max-width:500px;max-height:90%;overflow:auto;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.sum{display:flex;justify-content:space-between;font-size:15px}
+.sum.total{font-weight:700;font-size:17px;border-top:1px solid var(--line);padding-top:8px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg button{font:600 14px "Mukta",sans-serif;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.foot{text-align:center;font-size:12px;color:var(--muted)}
+.foot a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<main class="wrap">
+  <p class="demo" id="demo-note" hidden>Demo mode: nothing is saved. Loyalty staff code for the demo is 1234.</p>
+
+  <header class="head">
+    <div class="logo" id="logo" aria-hidden="true">V</div>
+    <div>
+      <h1 id="biz-name">Veritas Café</h1>
+      <p class="muted small" id="biz-tag"></p>
+    </div>
+  </header>
+
+  <nav class="chips" aria-label="Sections">
+    <a href="#menu">Menu</a><a href="#wifi">Wi-Fi</a><a href="#loyalty">Loyalty</a><a href="#club">VIP Club</a>
+  </nav>
+
+  <a class="btn btn-primary" id="review-btn" href="#" target="_blank" rel="noopener">★ Rate us on Google</a>
+  <div class="row2">
+    <a class="btn btn-ghost" id="insta-btn" href="#" target="_blank" rel="noopener">Instagram</a>
+    <a class="btn btn-ghost" id="wa-btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+  <p class="feedback"><a id="fb-btn" href="#" target="_blank" rel="noopener">Something not right? Tell the owner directly</a></p>
+
+  <section class="panel" id="menu" aria-labelledby="menu-h">
+    <h2 id="menu-h">Menu</h2>
+    <div class="offer" id="direct-offer"></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="items"></div>
+  </section>
+
+  <section class="panel" id="wifi" aria-labelledby="wifi-h">
+    <h2 id="wifi-h">Free Wi-Fi</h2>
+    <div class="wifi"><span class="muted">Network</span><b id="wifi-name"></b><span class="muted">Password</span><b id="wifi-pass"></b></div>
+    <button class="btn btn-ghost" id="wifi-copy" type="button">Copy password</button>
+  </section>
+
+  <section class="panel" id="loyalty" aria-labelledby="loy-h">
+    <h2 id="loy-h">Coffee Card</h2>
+    <p class="muted small" id="loy-desc"></p>
+    <div class="stamps" id="stamps" aria-live="polite"></div>
+    <label for="l-phone">Your mobile number<input id="l-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+    <label for="l-code">Today's code (ask at the counter)<input id="l-code" inputmode="numeric" maxlength="6" placeholder="4-digit code"></label>
+    <p class="err" id="l-msg" role="status"></p>
+    <button class="btn btn-primary" id="l-btn" type="button">Add my stamp</button>
+  </section>
+
+  <section class="panel" id="club" aria-labelledby="club-h">
+    <h2 id="club-h">Join the VIP Club</h2>
+    <p class="muted small">Member-only offers, new menu drops and a birthday treat on WhatsApp.</p>
+    <div class="offer" id="join-offer"></div>
+    <form id="club-form" novalidate>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label for="f-name">Name<input id="f-name" autocomplete="name" maxlength="60"></label>
+        <label for="f-phone">WhatsApp number<input id="f-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+        <label for="f-bday">Birthday (optional)<input id="f-bday" type="date"></label>
+        <label class="check" for="f-consent"><input id="f-consent" type="checkbox"><span id="consent-text"></span></label>
+        <p class="err" id="f-err" role="alert"></p>
+        <button class="btn btn-primary" id="f-btn" type="submit">Join VIP Club</button>
+      </div>
+    </form>
+    <p class="ok" id="f-done" hidden>You're in! Show this screen at the counter for your welcome offer.</p>
+  </section>
+
+  <p class="foot"><span id="timings"></span><br>Your details are used only by <span class="bn"></span>. · Powered by <a href="#" id="powered" target="_blank" rel="noopener">Veritas</a></p>
+</main>
+
+<div class="cartbar" id="cartbar" hidden>
+  <button class="btn btn-primary" id="cart-open" type="button"><span id="cart-count"></span><span>View order →</span></button>
+</div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-h">
+  <div class="inner">
+    <h2 id="sheet-h">Your order</h2>
+    <div id="sheet-items"></div>
+    <div class="seg" role="group" aria-label="Order type">
+      <button type="button" data-t="Dine-in" aria-pressed="true">Dine-in</button>
+      <button type="button" data-t="Takeaway" aria-pressed="false">Takeaway</button>
+      <button type="button" data-t="Delivery" aria-pressed="false">Delivery</button>
+    </div>
+    <label for="o-name">Name<input id="o-name" autocomplete="name" maxlength="60"></label>
+    <label for="o-extra" id="o-extra-label">Table number<input id="o-extra" maxlength="160"></label>
+    <div>
+      <div class="sum"><span>Subtotal</span><span class="price" id="s-sub"></span></div>
+      <div class="sum" id="s-disc-row"><span id="s-disc-label">Direct order discount</span><span class="price" id="s-disc"></span></div>
+      <div class="sum total"><span>Total</span><span class="price" id="s-total"></span></div>
+    </div>
+    <a class="btn btn-primary" id="send-order" href="#" target="_blank" rel="noopener">Send order on WhatsApp</a>
+    <button class="btn btn-ghost" id="sheet-close" type="button">Keep browsing</button>
+  </div>
+</div>
+
+<script>
+/* ====== EDIT THIS FOR EACH CAFÉ ====== */
+const CONFIG = {
+  clientId:    "cafe-demo",
+  name:        "Veritas Café",
+  tagline:     "Coffee · Shakes · Bites — Hudson Lane, GTB Nagar",
+  initial:     "V",
+  brandColor:  "#1F4D3A",
+  reviewUrl:   "https://search.google.com/local/writereview?placeid=PUT_PLACE_ID_HERE",
+  instagram:   "https://instagram.com/",
+  whatsapp:    "919999999999",              // café's WhatsApp: country code + number, no +
+  ownerWhatsapp: "919999999999",            // for private feedback (can be the same)
+  wifi:        { name: "VeritasCafe_Guest", password: "coffee2026" },
+  directOffer: "10% off on takeaway and delivery orders placed here on WhatsApp",
+  directDiscount: 10,                       // % off for Takeaway / Delivery
+  loyalty:     { stampsNeeded: 5, reward: "your 5th coffee is free" },
+  joinOffer:   "🍪 Free cookie with your next coffee when you join",
+  timings:     "Open daily · 11 AM – 11 PM",
+  scriptUrl:   "",                          // Google Apps Script web app URL
+  poweredBy:   "https://instagram.com/"
+};
+const MENU = [
+  { cat: "Coffee", items: [
+    { n: "Cappuccino", d: "Double shot, steamed milk", p: 149, v: true },
+    { n: "Café Latte", d: "Smooth and milky", p: 159, v: true },
+    { n: "Classic Cold Coffee", d: "Hudson Lane favourite", p: 169, v: true },
+    { n: "Hazelnut Frappé", d: "Blended with ice and hazelnut", p: 199, v: true } ]},
+  { cat: "Shakes", items: [
+    { n: "Oreo Shake", d: "Thick, with cookie crumble", p: 189, v: true },
+    { n: "KitKat Shake", d: "Chocolate and wafer", p: 199, v: true },
+    { n: "Mango Smoothie", d: "Seasonal", p: 179, v: true } ]},
+  { cat: "Bites", items: [
+    { n: "Peri Peri Fries", d: "Spicy seasoning", p: 149, v: true },
+    { n: "Cheese Garlic Bread", d: "4 pieces", p: 169, v: true },
+    { n: "Chicken Popcorn", d: "With mint mayo", p: 219, v: false } ]},
+  { cat: "Meals", items: [
+    { n: "Paneer Tikka Sandwich", d: "Grilled, with fries", p: 199, v: true },
+    { n: "White Sauce Pasta", d: "Penne, cheesy Alfredo", p: 249, v: true },
+    { n: "Margherita Pizza", d: "8 inch", p: 279, v: true },
+    { n: "Crispy Chicken Burger", d: "With fries", p: 229, v: false } ]}
+];
+/* ===================================== */
+
+(function(){
+  const $ = id => document.getElementById(id);
+  const source = (new URLSearchParams(location.search).get("s") || "table").slice(0, 40);
+  const device = /iPhone|iPad/.test(navigator.userAgent) ? "iPhone" : /Android/.test(navigator.userAgent) ? "Android" : "Other";
+  const rs = n => "₹" + Math.round(n).toLocaleString("en-IN");
+  const demo = !CONFIG.scriptUrl;
+
+  // ---- Apply config
+  document.documentElement.style.setProperty("--brand", CONFIG.brandColor);
+  $("biz-name").textContent = CONFIG.name;
+  document.querySelectorAll(".bn").forEach(e => e.textContent = CONFIG.name);
+  $("biz-tag").textContent = CONFIG.tagline;
+  $("logo").textContent = CONFIG.initial;
+  $("timings").textContent = CONFIG.timings;
+  $("direct-offer").textContent = "🛵 " + CONFIG.directOffer;
+  $("join-offer").textContent = CONFIG.joinOffer;
+  $("wifi-name").textContent = CONFIG.wifi.name;
+  $("wifi-pass").textContent = CONFIG.wifi.password;
+  $("loy-desc").textContent = `Collect a stamp on every visit. ${CONFIG.loyalty.stampsNeeded} stamps and ${CONFIG.loyalty.reward}.`;
+  $("consent-text").textContent = `I agree to receive offers and updates from ${CONFIG.name} on WhatsApp. I can stop anytime by replying STOP.`;
+  $("review-btn").href = CONFIG.reviewUrl;
+  $("insta-btn").href = CONFIG.instagram;
+  $("wa-btn").href = "https://wa.me/" + CONFIG.whatsapp;
+  $("fb-btn").href = "https://wa.me/" + CONFIG.ownerWhatsapp + "?text=" + encodeURIComponent(`Feedback for ${CONFIG.name}: `);
+  $("powered").href = CONFIG.poweredBy;
+  if (demo) $("demo-note").hidden = false;
+
+  // ---- Tracking
+  function send(payload){
+    if (demo) return;
+    const body = JSON.stringify(Object.assign({ clientId: CONFIG.clientId, source, device }, payload));
+    try { if (navigator.sendBeacon && navigator.sendBeacon(CONFIG.scriptUrl, body)) return; } catch(e){}
+    fetch(CONFIG.scriptUrl, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain" }, body }).catch(()=>{});
+  }
+  const ev = (event, details) => send({ type: "event", event, details: details || "" });
+  ev("page_open");
+  $("review-btn").addEventListener("click", () => ev("review_click"));
+  $("insta-btn").addEventListener("click", () => ev("instagram_click"));
+  $("wa-btn").addEventListener("click", () => ev("whatsapp_click"));
+  $("fb-btn").addEventListener("click", () => ev("feedback_click"));
+
+  const cleanPhone = v => { let p = String(v).replace(/\D/g, ""); if (p.length === 12 && p.startsWith("91")) p = p.slice(2); return /^[6-9]\d{9}$/.test(p) ? p : ""; };
+
+  // ---- Menu + cart
+  const cart = {};
+  const all = [];
+  MENU.forEach((c, ci) => c.items.forEach((it, ii) => all.push(Object.assign({ id: ci + "-" + ii, cat: c.cat }, it))));
+  let activeCat = MENU[0].cat;
+  function renderTabs(){
+    $("tabs").innerHTML = MENU.map(c => `<button type="button" role="tab" aria-selected="${c.cat === activeCat}" data-c="${c.cat}">${c.cat}</button>`).join("");
+  }
+  function qtyHtml(id){
+    const q = cart[id] || 0;
+    return q ? `<div class="qty"><button type="button" data-a="-" data-id="${id}" aria-label="Remove one">−</button><span>${q}</span><button type="button" data-a="+" data-id="${id}" aria-label="Add one">+</button></div>`
+             : `<div class="qty"><button type="button" class="add" data-a="+" data-id="${id}">Add</button></div>`;
+  }
+  function renderItems(){
+    $("items").innerHTML = all.filter(i => i.cat === activeCat).map(i => `
+      <div class="item">
+        <span class="dot ${i.v ? "v" : "n"}" title="${i.v ? "Veg" : "Non-veg"}" aria-label="${i.v ? "Veg" : "Non-veg"}"></span>
+        <div class="info"><div class="nm">${i.n}</div><div class="ds">${i.d}</div><div class="price">${rs(i.p)}</div></div>
+        ${qtyHtml(i.id)}
+      </div>`).join("");
+  }
+  $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; activeCat = b.dataset.c; renderTabs(); renderItems(); });
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-a]"); if (!b) return;
+    const id = b.dataset.id;
+    cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
+    if (!cart[id]) delete cart[id];
+    renderItems(); renderCart();
+  });
+
+  let orderType = "Dine-in";
+  const lines = () => Object.keys(cart).map(id => { const i = all.find(x => x.id === id); return { n: i.n, q: cart[id], t: i.p * cart[id] }; });
+  function totals(){
+    const sub = lines().reduce((s, l) => s + l.t, 0);
+    const disc = orderType === "Dine-in" ? 0 : Math.round(sub * CONFIG.directDiscount / 100);
+    return { sub, disc, total: sub - disc };
+  }
+  function renderCart(){
+    const count = Object.values(cart).reduce((a, b) => a + b, 0);
+    $("cartbar").hidden = count === 0;
+    const t = totals();
+    $("cart-count").textContent = `${count} item${count > 1 ? "s" : ""} · ${rs(t.sub)}`;
+    if (!count) closeSheet();
+    renderSheet();
+  }
+  function renderSheet(){
+    const ls = lines(), t = totals();
+    $("sheet-items").innerHTML = ls.map(l => `<div class="sum"><span>${l.q} × ${l.n}</span><span class="price">${rs(l.t)}</span></div>`).join("");
+    $("s-sub").textContent = rs(t.sub);
+    $("s-disc-row").hidden = !t.disc;
+    $("s-disc-label").textContent = `Direct order discount (${CONFIG.directDiscount}%)`;
+    $("s-disc").textContent = "−" + rs(t.disc);
+    $("s-total").textContent = rs(t.total);
+    const extra = $("o-extra").value.trim();
+    const extraLabel = orderType === "Dine-in" ? "Table" : orderType === "Delivery" ? "Address" : "Pickup time";
+    const msg = [`New ${orderType} order — ${CONFIG.name}`, "", ...ls.map(l => `${l.q} × ${l.n} — ${rs(l.t)}`), "",
+      `Subtotal: ${rs(t.sub)}`, ...(t.disc ? [`Direct order discount: −${rs(t.disc)}`] : []), `Total: ${rs(t.total)}`, "",
+      `Name: ${$("o-name").value.trim() || "-"}`, `${extraLabel}: ${extra || "-"}`].join("\n");
+    $("send-order").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
+  }
+  document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+    orderType = b.dataset.t;
+    document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    const lab = $("o-extra-label");
+    lab.firstChild.textContent = orderType === "Dine-in" ? "Table number" : orderType === "Delivery" ? "Delivery address" : "Pickup time";
+    renderSheet();
+  }));
+  ["o-name", "o-extra"].forEach(id => $(id).addEventListener("input", renderSheet));
+  function closeSheet(){ $("sheet").hidden = true; }
+  $("cart-open").addEventListener("click", () => { renderSheet(); $("sheet").hidden = false; $("o-name").focus(); });
+  $("sheet-close").addEventListener("click", closeSheet);
+  $("sheet").addEventListener("click", e => { if (e.target.id === "sheet") closeSheet(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+  $("send-order").addEventListener("click", () => { const t = totals(); ev("order_sent", `${orderType} · ${rs(t.total)} · ${lines().length} items`); });
+
+  // ---- Wi-Fi
+  $("wifi-copy").addEventListener("click", () => {
+    const b = $("wifi-copy");
+    const done = () => { b.textContent = "Password copied"; setTimeout(() => b.textContent = "Copy password", 2000); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents($("wifi-pass")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected, now copy it"; };
+    try { navigator.clipboard.writeText(CONFIG.wifi.password).then(done, fallback); } catch(e){ fallback(); }
+    ev("wifi_copy");
+  });
+
+  // ---- Loyalty
+  const demoStamps = {};
+  function drawStamps(n){
+    const need = CONFIG.loyalty.stampsNeeded;
+    $("stamps").innerHTML = Array.from({ length: need }, (_, i) => `<span class="stamp ${i < n ? "on" : ""}" aria-hidden="true">${i < n ? "☕" : i + 1}</span>`).join("")
+      + `<span class="small muted" style="position:absolute;left:-9999px">${n} of ${need} stamps</span>`;
+  }
+  drawStamps(0);
+  $("l-btn").addEventListener("click", async () => {
+    const msg = $("l-msg"); msg.className = "err";
+    const phone = cleanPhone($("l-phone").value), code = $("l-code").value.trim();
+    if (!phone) { msg.textContent = "Please enter a valid 10-digit mobile number."; return; }
+    if (!code) { msg.textContent = "Ask the counter for today's code."; return; }
+    const btn = $("l-btn"); btn.disabled = true; btn.textContent = "Adding…";
+    let res;
+    if (demo) {
+      if (code !== "1234") res = { ok: false, error: "Wrong code. Please check with the counter." };
+      else { demoStamps[phone] = ((demoStamps[phone] || 0) % CONFIG.loyalty.stampsNeeded) + 1; res = { ok: true, stamps: demoStamps[phone], reward: demoStamps[phone] === CONFIG.loyalty.stampsNeeded }; }
+    } else {
+      try {
+        const u = `${CONFIG.scriptUrl}?action=stamp&client=${encodeURIComponent(CONFIG.clientId)}&phone=${phone}&code=${encodeURIComponent(code)}&need=${CONFIG.loyalty.stampsNeeded}&source=${encodeURIComponent(source)}`;
+        res = await (await fetch(u)).json();
+      } catch(e) { res = { ok: false, error: "Couldn't reach the server. Please try again." }; }
+    }
+    btn.disabled = false; btn.textContent = "Add my stamp";
+    if (!res.ok) { msg.textContent = res.error || "Something went wrong."; if (res.stamps != null) drawStamps(res.stamps); return; }
+    drawStamps(res.stamps);
+    msg.className = "ok";
+    msg.textContent = res.reward ? `🎉 Card complete: ${CONFIG.loyalty.reward}! Show this screen at the counter.` : `Stamp added. ${CONFIG.loyalty.stampsNeeded - res.stamps} more to go.`;
+  });
+
+  // ---- VIP Club
+  $("club-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const err = $("f-err");
+    const name = $("f-name").value.trim(), phone = cleanPhone($("f-phone").value);
+    if (!name) { err.textContent = "Please enter your name."; $("f-name").focus(); return; }
+    if (!phone) { err.textContent = "Please enter a valid 10-digit mobile number."; $("f-phone").focus(); return; }
+    if (!$("f-consent").checked) { err.textContent = "Please tick the box to agree to WhatsApp messages."; return; }
+    err.textContent = "";
+    send({ type: "member", name, phone, birthday: $("f-bday").value, service: "", consent: "yes", consentText: $("consent-text").textContent });
+    $("club-form").hidden = true; $("f-done").hidden = false;
+  });
+
+  renderTabs(); renderItems(); renderCart();
+})();
+</script>
+</body>
+</html>
