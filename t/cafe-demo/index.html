@@ -9,188 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Mukta:wght@400;500;600;700&display=swap">
-<style>
-:root{
-  --bg:#F7F1E8; --card:#FFFDF9; --ink:#2A1D15; --muted:#7A6656; --line:#EADFCF;
-  --brand:#3B2418; --brand-ink:#FFF8EE; --accent:#C8813A; --accent-soft:#F6E7D3;
-  --kraft:#E9D6B8; --kraft-ink:#5A3C22; --thumb:#F3E7D7;
-  --veg:#1E8E3E; --nonveg:#B3261E; --err:#B3261E; --ok:#2F7A4B;
-}
-@media (prefers-color-scheme:dark){:root{color-scheme:dark;
-  --bg:#17110D; --card:#211913; --ink:#F3E9DD; --muted:#B8A593; --line:#3A2D23;
-  --accent:#E3A15E; --accent-soft:#3A2A1B; --kraft:#4A3626; --kraft-ink:#F1DEC4; --thumb:#2E231A;
-  --veg:#5CC97A; --nonveg:#F2968F; --err:#F2968F; --ok:#7FD39F;}}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Mukta",system-ui,sans-serif;padding:0 14px 120px;
-  background-image:radial-gradient(var(--line) 1.2px,transparent 1.3px);background-size:22px 22px}
-.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
-h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0;text-wrap:balance}
-h2{font-size:23px;display:flex;align-items:center;gap:10px}
-h2 svg{width:26px;height:26px;flex:none;color:var(--accent)}
-p{margin:0}
-.muted{color:var(--muted)} .small{font-size:13px}
-.demo{font-size:12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:6px;margin-top:10px;background:var(--card)}
-
-/* HERO */
-.hero{position:relative;margin:12px -2px 0;border-radius:26px;overflow:hidden;color:var(--brand-ink);
-  background:radial-gradient(120% 90% at 85% 10%,rgba(255,255,255,.14),transparent 60%),var(--brand);padding:22px 20px 20px;isolation:isolate}
-.hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.13;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='%23fff'%3E%3Cellipse cx='14' cy='16' rx='5' ry='7' transform='rotate(30 14 16)'/%3E%3Cellipse cx='46' cy='44' rx='5' ry='7' transform='rotate(-25 46 44)'/%3E%3C/g%3E%3Cg stroke='%23000' stroke-width='1.2' fill='none'%3E%3Cpath d='M11 11q5 5 6 10'/%3E%3Cpath d='M48 38q-4 5-3 11'/%3E%3C/g%3E%3C/svg%3E")}
-.hero-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.14)}
-.badge i{width:8px;height:8px;border-radius:50%;background:#7BE39A;box-shadow:0 0 0 3px rgba(123,227,154,.25)}
-.badge.closed i{background:#F2968F;box-shadow:0 0 0 3px rgba(242,150,143,.25)}
-.mono{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--brand-ink);color:var(--brand);font:22px "DM Serif Display",Georgia,serif}
-.hero-body{display:grid;grid-template-columns:1fr 132px;align-items:end;gap:6px;margin-top:6px}
-.hero h1{font-size:33px;line-height:1.05}
-.hero .tag{opacity:.85;font-size:14px;margin-top:6px}
-.cupwrap{position:relative;width:132px;height:140px}
-.cupwrap svg{width:100%;height:100%;overflow:visible}
-.steam path{fill:none;stroke:var(--brand-ink);stroke-width:4;stroke-linecap:round;opacity:0;animation:steam 3.2s ease-in-out infinite}
-.steam path:nth-child(2){animation-delay:1s}
-.steam path:nth-child(3){animation-delay:2s}
-@keyframes steam{0%{opacity:0;transform:translateY(10px)}35%{opacity:.75}100%{opacity:0;transform:translateY(-16px)}}
-.cup-bob{animation:bob 4s ease-in-out infinite;transform-origin:center bottom}
-@keyframes bob{50%{transform:translateY(-2px) rotate(-1deg)}}
-.hero .ask{margin-top:16px;text-align:center;font-size:15px;opacity:.9}
-.hero .cta{margin-top:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:12px 14px 10px;border-radius:18px;
-  background:var(--brand-ink);color:var(--brand);text-decoration:none;position:relative;overflow:hidden;
-  box-shadow:0 0 0 4px rgba(232,169,59,.35),0 10px 24px -8px rgba(0,0,0,.5);animation:glow 2.6s ease-in-out infinite}
-@keyframes glow{50%{box-shadow:0 0 0 7px rgba(232,169,59,.18),0 10px 24px -8px rgba(0,0,0,.5)}}
-.hero .cta .stars{color:#E8A93B;font-size:26px;letter-spacing:3px;line-height:1.1}
-.hero .cta{text-align:center}
-.hero .cta b{font:400 clamp(21px,6.6vw,25px)/1.15 "DM Serif Display",Georgia,serif;text-wrap:balance}
-.hero .cta small{font-size:13px;color:var(--muted);font-weight:500}
-.hero .cta::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(200,129,58,.25) 50%,transparent 60%);transform:translateX(-100%);animation:shine 4.5s 1.2s ease-in-out infinite}
-@keyframes shine{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-
-/* TILES */
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px 10px;border-radius:16px;background:var(--card);border:1px solid var(--line);
-  color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;transition:transform .15s}
-.tile:active{transform:scale(.95)}
-.tile span{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
-.tile svg{width:22px;height:22px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;padding:10px 16px;border-radius:14px;border:0;font:600 16px "Mukta",system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:transform .12s}
-.btn:active{transform:scale(.97)}
-.btn svg{width:20px;height:20px;flex:none}
-.btn-primary{background:var(--brand);color:var(--brand-ink)}
-.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
-.soc{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:transform .12s}
-.soc:active{transform:scale(.97)}
-.soc svg{width:30px;height:30px;flex:none}
-.soc b{display:block;font-size:15px;line-height:1.2}
-.soc small{display:block;font-size:12px;color:var(--muted);line-height:1.3}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.btn:focus-visible,input:focus-visible,.tile:focus-visible,.qty button:focus-visible,.tabs button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.feedback{text-align:center;font-size:14px}
-.feedback a{color:var(--muted)}
-
-.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:12px;box-shadow:0 1px 0 rgba(59,36,24,.04),0 8px 24px -16px rgba(59,36,24,.25)}
-.offer{background:var(--accent-soft);color:var(--ink);border-radius:12px;padding:9px 12px;font-size:14px;font-weight:500}
-
-/* MENU */
-.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -4px;padding:2px 4px}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{flex:none;display:flex;align-items:center;gap:6px;font:600 14px "Mukta",sans-serif;padding:5px 12px 5px 6px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
-.tabs button svg{width:26px;height:26px}
-.tabs button[aria-selected="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
-.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
-.item:last-child{border-bottom:0}
-.thumb{width:58px;height:58px;flex:none;border-radius:16px;background:var(--thumb);display:grid;place-items:center;position:relative}
-.thumb svg{width:46px;height:46px}
-.dot{position:absolute;top:-3px;right:-3px;width:15px;height:15px;background:var(--card);border:1.5px solid currentColor;border-radius:3px;display:grid;place-items:center}
-.dot::after{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.dot.v{color:var(--veg)} .dot.n{color:var(--nonveg)}
-.item .info{flex:1;min-width:0}
-.item .nm{font-weight:600;line-height:1.25}
-.item .ds{font-size:13px;color:var(--muted);line-height:1.35}
-.price{font-variant-numeric:tabular-nums;font-weight:700}
-.qty{display:flex;align-items:center;gap:6px}
-.qty button{width:32px;height:32px;border-radius:10px;border:1.5px solid var(--brand);background:var(--card);color:var(--brand);font:700 18px "Mukta",sans-serif;cursor:pointer;line-height:1}
-.qty .add{width:auto;padding:0 14px;font-size:14px;background:var(--brand);color:var(--brand-ink)}
-.qty span{min-width:18px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
-.pop{animation:pop .25s ease-out}
-@keyframes pop{50%{transform:scale(1.18)}}
-@media (prefers-color-scheme:dark){.qty button{border-color:var(--accent);color:var(--accent)} .qty .add{background:var(--accent);color:#1A120C} .tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#1A120C} .btn-primary{background:var(--accent);color:#1A120C}}
-
-/* WIFI */
-.wifi{display:flex;align-items:center;gap:14px;background:var(--bg);border-radius:14px;padding:12px 14px}
-.wifi .ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
-.wifi .ic svg{width:24px;height:24px}
-.wifi dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:0 12px;font-size:15px}
-.wifi dt{color:var(--muted)} .wifi dd{margin:0;font-weight:700}
-
-/* LOYALTY: kraft coffee card */
-.kraft{background:var(--kraft);color:var(--kraft-ink);border-radius:16px;padding:14px;position:relative;
-  background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.025) 0 2px,transparent 2px 6px)}
-.kraft::before,.kraft::after{content:"";position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--card);transform:translateY(-50%)}
-.kraft::before{left:-8px} .kraft::after{right:-8px}
-.ribbon{align-self:flex-start;margin-top:-4px;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;color:#fff;background:#9C3D22;padding:4px 12px 4px 10px;border-radius:99px}
-.kraft .big{text-align:center;font:24px/1.15 "DM Serif Display",Georgia,serif;margin:2px 0 12px}
-.kraft .big em{font-style:normal;color:#9C3D22}
-.stamp.free{border:2px solid #9C3D22;background:#FFF6E8;color:#9C3D22;font-size:11px;font-weight:800;letter-spacing:.5px}
-.stamp.free.on{background:#9C3D22;color:#fff}
-.kraft .kt{display:flex;justify-content:space-between;font:15px "DM Serif Display",Georgia,serif;margin-bottom:10px;border-bottom:1.5px dashed rgba(90,60,34,.35);padding-bottom:8px}
-.stamps{display:flex;gap:8px;justify-content:center}
-.stamp{width:46px;height:46px;border-radius:50%;border:2px dashed rgba(90,60,34,.45);display:grid;place-items:center;font-weight:700;font-size:15px;color:rgba(90,60,34,.6)}
-.stamp svg{width:28px;height:28px}
-.stamp.on{border:2.5px solid #9C3D22;color:#9C3D22;background:rgba(156,61,34,.08);transform:rotate(-8deg)}
-.stamp.new{animation:thump .45s cubic-bezier(.3,1.6,.5,1)}
-@keyframes thump{0%{transform:scale(2.2) rotate(-25deg);opacity:0}100%{transform:scale(1) rotate(-8deg);opacity:1}}
-@media (prefers-color-scheme:dark){.stamp.on{border-color:#F0A07E;color:#F0A07E}}
-
-/* VIP gold card */
-.vip{border-radius:18px;padding:18px;color:#F3D79A;background:radial-gradient(120% 120% at 100% 0%,#4A3020 0%,#1E140E 60%);position:relative;overflow:hidden;border:1.5px solid #C9A04E;box-shadow:inset 0 0 0 4px #1E140E,inset 0 0 0 5px rgba(201,160,78,.45)}
-.gold{background:linear-gradient(100deg,#F7E2A8,#D3A148 45%,#FFF0C2 60%,#C99536);-webkit-background-clip:text;background-clip:text;color:transparent}
-.vip .lbl{font-size:11px;letter-spacing:3px;font-weight:700;color:#C9A04E}
-.vip .chip{width:34px;height:26px;border-radius:6px;background:linear-gradient(135deg,#F7E2A8,#C99536);margin:12px 0 8px;position:relative}
-.vip .chip::after{content:"";position:absolute;inset:6px 9px;border:1px solid rgba(80,50,10,.45);border-radius:3px}
-.vip .num{display:flex;justify-content:space-between;align-items:end;font-size:13px;letter-spacing:2px;color:#D8C08A}
-.vip .num b{font:20px "DM Serif Display",Georgia,serif;letter-spacing:0}
-.perks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.perks li{display:flex;gap:12px;align-items:center;font-size:15px;line-height:1.3}
-.perks li span{width:40px;height:40px;flex:none;border-radius:12px;background:linear-gradient(135deg,#FBEFD0,#F1D79C);display:grid;place-items:center;font-size:20px}
-.perks li b{display:block}
-.perks li small{color:var(--muted);font-size:13px}
-.free-note{text-align:center;font-size:13px;color:var(--muted);margin-top:-2px}
-.vip::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-100%);animation:shine 5s 2s ease-in-out infinite}
-.vip .vt{display:flex;justify-content:space-between;align-items:center}
-.vip .vt svg{width:30px;height:30px;color:#D3A148}
-.vip p{font-size:14px;margin-top:2px;color:#D8C08A}
-
-label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:500}
-input{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
-.check{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;color:var(--muted);font-size:13px;line-height:1.45}
-.check input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--brand)}
-.err{color:var(--err);font-size:13px;min-height:1em}
-.ok{color:var(--ok);font-weight:600}
-.done{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:8px 0}
-.done svg{width:64px;height:64px}
-.done circle{stroke-dasharray:160;stroke-dashoffset:160;animation:draw .6s ease-out forwards}
-.done path{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .35s .5s ease-out forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-
-/* cart */
-.cartbar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:10;animation:up .3s ease-out}
-@keyframes up{from{transform:translateY(100%)}}
-.cartbar .btn{max-width:460px;margin:0 auto;justify-content:space-between}
-.sheet{position:fixed;inset:0;background:rgba(20,12,8,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}
-.sheet .inner{background:var(--card);width:100%;max-width:500px;max-height:90%;overflow:auto;border-radius:22px 22px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:up .28s ease-out}
-.sum{display:flex;justify-content:space-between;font-size:15px}
-.sum.total{font-weight:700;font-size:17px;border-top:1px solid var(--line);padding-top:8px}
-.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.seg button{font:600 14px "Mukta",sans-serif;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
-.foot{text-align:center;font-size:12px;color:var(--muted)}
-.foot a{color:var(--muted)}
-.confetti{position:fixed;top:-12px;width:8px;height:12px;z-index:30;pointer-events:none;animation:fall 1.6s ease-in forwards}
-@keyframes fall{to{transform:translate(var(--x),105vh) rotate(var(--r))}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}.steam path{opacity:.5}}
-</style>
+<link rel="stylesheet" href="../tap.css">
 </head>
 <body>
 <!-- Illustrations (one sprite, reused everywhere) -->
@@ -209,6 +28,7 @@ input{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid 
   <symbol id="i-pizza" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="#D9963F" stroke="#3B2418" stroke-width="2"/><circle cx="24" cy="24" r="15" fill="#F2C14E"/><g fill="#C9372C"><circle cx="18" cy="18" r="3.2"/><circle cx="30" cy="20" r="3.2"/><circle cx="21" cy="30" r="3.2"/><circle cx="31" cy="30" r="2.6"/></g><g fill="#3E9A4A"><ellipse cx="25" cy="15" rx="2.6" ry="1.4"/><ellipse cx="15" cy="26" rx="2.6" ry="1.4" transform="rotate(40 15 26)"/></g><path d="M24 5v38M5 24h38" stroke="#D9963F" stroke-width="1"/></symbol>
   <symbol id="i-burger" viewBox="0 0 48 48"><path d="M7 21a17 13 0 0 1 34 0z" fill="#D9963F" stroke="#3B2418" stroke-width="2"/><g fill="#FFF3D6"><ellipse cx="17" cy="14" rx="1.3" ry=".8"/><ellipse cx="24" cy="11" rx="1.3" ry=".8"/><ellipse cx="31" cy="15" rx="1.3" ry=".8"/></g><path d="M6 24c3 3 5-2 8 1s5-2 8 1 5-2 8 1 5-2 8 1 4-1 4-1" stroke="#5BAE5B" stroke-width="3.4" fill="none" stroke-linecap="round"/><rect x="7" y="27" width="34" height="6" rx="3" fill="#6B3A22"/><path d="M8 33l4 3 4-3" fill="#F5C542"/><path d="M7 36h34a3 3 0 0 1-3 4H10a3 3 0 0 1-3-4z" fill="#D9963F" stroke="#3B2418" stroke-width="2"/></symbol>
   <!-- line icons -->
+  <symbol id="u-bag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 8h14l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9 10V7a3 3 0 0 1 6 0v3"/></symbol>
   <symbol id="u-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20M8 8h8M8 12h6"/></symbol>
   <symbol id="u-wifi" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.4" fill="currentColor"/></symbol>
   <symbol id="u-stamp" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10.5h1.5a2.5 2.5 0 0 1 0 5H17M8 2.5c-1 1.2 1 2.3 0 3.5M12 2.5c-1 1.2 1 2.3 0 3.5"/></symbol>
@@ -252,17 +72,19 @@ input{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid 
     <a class="cta" id="review-btn" href="#" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">★★★★★</span><b id="review-text">Share your love on Google</b><small>Takes just 10 seconds</small></a>
   </header>
 
+  <a class="order" id="order-btn" href="#menu"><span class="oi" aria-hidden="true"><svg><use href="#u-bag"/></svg></span><span><b>Order now</b><small id="order-sub"></small></span><span class="arr" aria-hidden="true">↓</span></a>
+
+  <div class="socials">
+    <a class="soc" id="insta-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-insta"/></svg><span><b>Tag us on Insta</b><small id="insta-sub">Post your coffee pic &amp; follow</small></span></a>
+    <a class="soc" id="wa-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-wag"/></svg><span><b id="wa-title"></b><small id="wa-sub"></small></span></a>
+  </div>
+
   <nav class="tiles" aria-label="Quick links">
     <a class="tile" href="#menu"><span><svg><use href="#u-menu"/></svg></span>Menu</a>
     <a class="tile" href="#wifi" id="wifi-tile"><span><svg><use href="#u-wifi"/></svg></span>Wi-Fi</a>
     <a class="tile" href="#loyalty"><span><svg><use href="#u-stamp"/></svg></span>Stamps</a>
     <a class="tile" href="#club"><span><svg><use href="#u-crown"/></svg></span>VIP</a>
   </nav>
-
-  <div class="row2">
-    <a class="soc" id="insta-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-insta"/></svg><span><b>Tag us on Insta</b><small id="insta-sub">Post your coffee pic &amp; follow</small></span></a>
-    <a class="soc" id="wa-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-wag"/></svg><span><b>Chat with us</b><small>Order, ask or book a table</small></span></a>
-  </div>
 
   <section class="panel" id="menu" aria-labelledby="menu-h">
     <h2 id="menu-h"><svg><use href="#u-menu"/></svg>Menu</h2>
@@ -322,7 +144,7 @@ input{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid 
   </section>
 
   <p class="feedback"><a id="fb-btn" href="#" target="_blank" rel="noopener">Something not right? Tell the owner directly</a></p>
-  <p class="foot"><span id="timings"></span><br>Your details are used only by <span class="bn"></span>. · Powered by <a href="#" id="powered" target="_blank" rel="noopener">Veritas</a></p>
+  <p class="foot"><span id="timings"></span><br>Your details are shared only with <span class="bn"></span> and Veritas Tap, who runs this page for them. · Powered by <a href="#" id="powered" target="_blank" rel="noopener">Veritas</a></p>
 </main>
 
 <div class="cartbar" id="cartbar" hidden>
@@ -350,6 +172,25 @@ input{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid 
   </div>
 </div>
 
+<div class="sheet" id="cel" hidden role="dialog" aria-modal="true" aria-labelledby="cel-h">
+<div class="inner"><form id="cel-form" novalidate style="display:flex;flex-direction:column;gap:12px">
+<h2 id="cel-h">🎉 Plan your celebration</h2>
+<p class="muted small">Tell us a little and we'll get back to you on WhatsApp.</p>
+<div class="chips2" role="group" aria-label="Occasion" id="cel-occ"></div>
+<div class="row2"><label for="c-date">Date<input id="c-date" type="date"></label><label for="c-people">People<input id="c-people" type="number" inputmode="numeric" min="1" max="500" placeholder="e.g. 12"></label></div>
+<label for="c-name">Your name<input id="c-name" autocomplete="name" maxlength="60"></label>
+<label for="c-phone">WhatsApp number<input id="c-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+<label class="check" for="c-consent"><input id="c-consent" type="checkbox"><span id="c-consent-text"></span></label>
+<p class="err" id="c-err" role="alert"></p>
+<button class="btn btn-primary" type="submit" id="c-btn">Submit details</button>
+</form>
+<div class="done" id="c-done" hidden>
+<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="none" stroke="var(--ok)" stroke-width="4"/><path d="M21 33l8 8 15-17" fill="none" stroke="var(--ok)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<p class="ok" id="c-done-text"></p>
+</div>
+<button class="btn btn-ghost" id="cel-close" type="button">Close</button>
+</div>
+</div>
 <script>
 /* ====== EDIT THIS FOR EACH CAFÉ ====== */
 const CONFIG = {
@@ -366,7 +207,13 @@ const CONFIG = {
   directOffer: "10% off on takeaway and delivery orders placed here on WhatsApp",
   directDiscount: 10,                       // % off for Takeaway / Delivery
   reviewText:  "Share your love on Google",
-  instaText:   "Post your coffee pic & follow",
+  instaHandle: "@veritasmarketingsolutions", // copied when the Insta button is tapped
+  instaText:   "Share your coffee pic & tag us",
+  waTitle:     "Celebrate with us",
+  waText:      "Birthdays, anniversaries & parties",
+  waMessage:   "I'd like to plan a celebration.",   // backup only: used if the form cannot open
+  occasions:   ["Birthday", "Anniversary", "Party", "Other"],   // chips in the celebration form
+orderText:   "Pick from menu · 10% off takeaway & delivery",
   loyalty:     { stampsNeeded: 5, reward: "your 5th coffee is free", ribbon: "5th coffee on us", big: "Your <em>5th coffee</em> is on us!" },
   vipPerks: [                               // what VIP members get (confirm with the café)
     { e: "🍪", t: "Welcome treat", s: "Free cookie with your next coffee" },
@@ -400,215 +247,7 @@ const MENU = [
     { n: "Crispy Chicken Burger", d: "With fries", p: 229, v: false, i: "burger" } ]}
 ];
 /* ===================================== */
-
-(function(){
-  const $ = id => document.getElementById(id);
-  const source = (new URLSearchParams(location.search).get("s") || "table").slice(0, 40);
-  const device = /iPhone|iPad/.test(navigator.userAgent) ? "iPhone" : /Android/.test(navigator.userAgent) ? "Android" : "Other";
-  const rs = n => "₹" + Math.round(n).toLocaleString("en-IN");
-  const demo = !CONFIG.scriptUrl;
-  const icon = k => `<svg aria-hidden="true"><use href="#i-${k || "cup"}"/></svg>`;
-
-  // ---- Apply config
-  document.documentElement.style.setProperty("--brand", CONFIG.brandColor);
-  document.querySelector('meta[name="theme-color"]').content = CONFIG.brandColor;
-  document.title = CONFIG.name;
-  $("biz-name").textContent = CONFIG.name;
-  document.querySelectorAll(".bn").forEach(e => e.textContent = CONFIG.name);
-  $("biz-tag").textContent = CONFIG.tagline;
-  $("logo").textContent = CONFIG.initial;
-  $("timings").textContent = CONFIG.timings;
-  $("direct-offer").textContent = "🛵 " + CONFIG.directOffer;
-  $("review-text").textContent = CONFIG.reviewText;
-  $("insta-sub").textContent = CONFIG.instaText;
-  $("loy-ribbon").textContent = CONFIG.loyalty.ribbon;
-  $("loy-big").innerHTML = CONFIG.loyalty.big;
-  $("perks").innerHTML = CONFIG.vipPerks.map(p => `<li><span aria-hidden="true">${p.e}</span><div><b>${p.t}</b><small>${p.s}</small></div></li>`).join("");
-  if (!CONFIG.wifi) { $("wifi").hidden = true; $("wifi-tile").hidden = true; }
-  if (CONFIG.wifi) { $("wifi-name").textContent = CONFIG.wifi.name; $("wifi-pass").textContent = CONFIG.wifi.password; }
-  $("loy-short").textContent = `${CONFIG.loyalty.stampsNeeded} stamps = reward`;
-  $("loy-desc").textContent = `Thank you for coming back! Get a stamp on every visit. Collect ${CONFIG.loyalty.stampsNeeded} and ${CONFIG.loyalty.reward}.`;
-  $("consent-text").textContent = `I agree to receive offers and updates from ${CONFIG.name} on WhatsApp. I can stop anytime by replying STOP.`;
-  $("review-btn").href = CONFIG.reviewUrl;
-  $("insta-btn").href = CONFIG.instagram;
-  $("wa-btn").href = "https://wa.me/" + CONFIG.whatsapp;
-  $("fb-btn").href = "https://wa.me/" + CONFIG.ownerWhatsapp + "?text=" + encodeURIComponent(`Feedback for ${CONFIG.name}: `);
-  $("powered").href = CONFIG.poweredBy;
-  if (demo) $("demo-note").hidden = false;
-  if (CONFIG.hours) {
-    const h = new Date().getHours(), o = CONFIG.hours.open, c = CONFIG.hours.close;
-    const open = o < c ? (h >= o && h < c) : (h >= o || h < c);
-    $("open-text").textContent = open ? "Open now" : "Closed now";
-    $("open-badge").classList.toggle("closed", !open);
-  } else $("open-badge").hidden = true;
-
-  // ---- Tracking
-  function send(payload){
-    if (demo) return;
-    const body = JSON.stringify(Object.assign({ clientId: CONFIG.clientId, source, device }, payload));
-    try { if (navigator.sendBeacon && navigator.sendBeacon(CONFIG.scriptUrl, body)) return; } catch(e){}
-    fetch(CONFIG.scriptUrl, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain" }, body }).catch(()=>{});
-  }
-  const ev = (event, details) => send({ type: "event", event, details: details || "" });
-  ev("page_open");
-  $("review-btn").addEventListener("click", () => ev("review_click"));
-  $("insta-btn").addEventListener("click", () => ev("instagram_click"));
-  $("wa-btn").addEventListener("click", () => ev("whatsapp_click"));
-  $("fb-btn").addEventListener("click", () => ev("feedback_click"));
-
-  const cleanPhone = v => { let p = String(v).replace(/\D/g, ""); if (p.length === 12 && p.startsWith("91")) p = p.slice(2); return /^[6-9]\d{9}$/.test(p) ? p : ""; };
-
-  function confetti(){
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const cols = ["#C8813A", "#E8A93B", "#9C3D22", "#3FA36B", "#F3E2C7"];
-    for (let k = 0; k < 28; k++) {
-      const s = document.createElement("span");
-      s.className = "confetti";
-      s.style.left = Math.random() * 100 + "vw";
-      s.style.background = cols[k % cols.length];
-      s.style.setProperty("--x", (Math.random() * 120 - 60) + "px");
-      s.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
-      s.style.animationDelay = Math.random() * .3 + "s";
-      document.body.appendChild(s);
-      setTimeout(() => s.remove(), 2200);
-    }
-  }
-
-  // ---- Menu + cart
-  const cart = {};
-  const all = [];
-  MENU.forEach((c, ci) => c.items.forEach((it, ii) => all.push(Object.assign({ id: ci + "-" + ii, cat: c.cat }, it))));
-  let activeCat = MENU[0].cat;
-  function renderTabs(){
-    $("tabs").innerHTML = MENU.map(c => `<button type="button" role="tab" aria-selected="${c.cat === activeCat}" data-c="${c.cat}">${icon(c.icon)}${c.cat}</button>`).join("");
-  }
-  function qtyHtml(id){
-    const q = cart[id] || 0;
-    return q ? `<div class="qty"><button type="button" data-a="-" data-id="${id}" aria-label="Remove one">−</button><span class="q">${q}</span><button type="button" data-a="+" data-id="${id}" aria-label="Add one">+</button></div>`
-             : `<div class="qty"><button type="button" class="add" data-a="+" data-id="${id}">Add</button></div>`;
-  }
-  function renderItems(popId){
-    $("items").innerHTML = all.filter(i => i.cat === activeCat).map(i => `
-      <div class="item">
-        <div class="thumb">${icon(i.i)}<span class="dot ${i.v ? "v" : "n"}" title="${i.v ? "Veg" : "Non-veg"}" aria-label="${i.v ? "Veg" : "Non-veg"}"></span></div>
-        <div class="info"><div class="nm">${i.n}</div><div class="ds">${i.d}</div><div class="price">${rs(i.p)}</div></div>
-        <div data-row="${i.id}">${qtyHtml(i.id)}</div>
-      </div>`).join("");
-    if (popId) { const q = document.querySelector(`[data-row="${popId}"] .q`); if (q) q.classList.add("pop"); }
-  }
-  $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; activeCat = b.dataset.c; renderTabs(); renderItems(); });
-  document.addEventListener("click", e => {
-    const b = e.target.closest("[data-a]"); if (!b) return;
-    const id = b.dataset.id;
-    cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
-    if (!cart[id]) delete cart[id];
-    renderItems(id); renderCart();
-  });
-
-  let orderType = "Dine-in";
-  const lines = () => Object.keys(cart).map(id => { const i = all.find(x => x.id === id); return { n: i.n, q: cart[id], t: i.p * cart[id] }; });
-  function totals(){
-    const sub = lines().reduce((s, l) => s + l.t, 0);
-    const disc = orderType === "Dine-in" ? 0 : Math.round(sub * CONFIG.directDiscount / 100);
-    return { sub, disc, total: sub - disc };
-  }
-  function renderCart(){
-    const count = Object.values(cart).reduce((a, b) => a + b, 0);
-    $("cartbar").hidden = count === 0;
-    const t = totals();
-    $("cart-count").textContent = `${count} item${count > 1 ? "s" : ""} · ${rs(t.sub)}`;
-    if (!count) closeSheet();
-    renderSheet();
-  }
-  function renderSheet(){
-    const ls = lines(), t = totals();
-    $("sheet-items").innerHTML = ls.map(l => `<div class="sum"><span>${l.q} × ${l.n}</span><span class="price">${rs(l.t)}</span></div>`).join("");
-    $("s-sub").textContent = rs(t.sub);
-    $("s-disc-row").hidden = !t.disc;
-    $("s-disc-label").textContent = `Direct order discount (${CONFIG.directDiscount}%)`;
-    $("s-disc").textContent = "−" + rs(t.disc);
-    $("s-total").textContent = rs(t.total);
-    const extra = $("o-extra").value.trim();
-    const extraLabel = orderType === "Dine-in" ? "Table" : orderType === "Delivery" ? "Address" : "Pickup time";
-    const msg = [`New ${orderType} order — ${CONFIG.name}`, "", ...ls.map(l => `${l.q} × ${l.n} — ${rs(l.t)}`), "",
-      `Subtotal: ${rs(t.sub)}`, ...(t.disc ? [`Direct order discount: −${rs(t.disc)}`] : []), `Total: ${rs(t.total)}`, "",
-      `Name: ${$("o-name").value.trim() || "-"}`, `${extraLabel}: ${extra || "-"}`].join("\n");
-    $("send-order").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
-  }
-  document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
-    orderType = b.dataset.t;
-    document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b));
-    $("o-extra-label").firstChild.textContent = orderType === "Dine-in" ? "Table number" : orderType === "Delivery" ? "Delivery address" : "Pickup time";
-    renderSheet();
-  }));
-  ["o-name", "o-extra"].forEach(id => $(id).addEventListener("input", renderSheet));
-  function closeSheet(){ $("sheet").hidden = true; }
-  $("cart-open").addEventListener("click", () => { renderSheet(); $("sheet").hidden = false; $("o-name").focus(); });
-  $("sheet-close").addEventListener("click", closeSheet);
-  $("sheet").addEventListener("click", e => { if (e.target.id === "sheet") closeSheet(); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
-  $("send-order").addEventListener("click", () => { const t = totals(); ev("order_sent", `${orderType} · ${rs(t.total)} · ${lines().length} items`); });
-
-  // ---- Wi-Fi
-  $("wifi-copy").addEventListener("click", () => {
-    const b = $("wifi-copy");
-    const done = () => { b.textContent = "✓ Password copied"; setTimeout(() => b.textContent = "Copy password", 2000); };
-    const fallback = () => { const r = document.createRange(); r.selectNodeContents($("wifi-pass")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected, now copy it"; };
-    try { navigator.clipboard.writeText(CONFIG.wifi.password).then(done, fallback); } catch(e){ fallback(); }
-    ev("wifi_copy");
-  });
-
-  // ---- Loyalty
-  const demoStamps = {};
-  let shown = 0;
-  function drawStamps(n){
-    const need = CONFIG.loyalty.stampsNeeded;
-    $("stamps").innerHTML = Array.from({ length: need }, (_, i) => `<span class="stamp ${i === need - 1 ? "free" : ""} ${i < n ? "on" : ""} ${i < n && i >= shown ? "new" : ""}" aria-hidden="true">${i < n ? `<svg><use href="#u-stamp"/></svg>` : i === need - 1 ? "FREE" : i + 1}</span>`).join("")
-      + `<span style="position:absolute;left:-9999px">${n} of ${need} stamps</span>`;
-    shown = n;
-  }
-  drawStamps(0);
-  $("l-btn").addEventListener("click", async () => {
-    const msg = $("l-msg"); msg.className = "err";
-    const phone = cleanPhone($("l-phone").value), code = $("l-code").value.trim();
-    if (!phone) { msg.textContent = "Please enter a valid 10-digit mobile number."; return; }
-    if (!code) { msg.textContent = "Ask the counter for today's code."; return; }
-    const btn = $("l-btn"); btn.disabled = true; btn.textContent = "Adding…";
-    let res;
-    if (demo) {
-      if (code !== "1234") res = { ok: false, error: "Wrong code. Please check with the counter." };
-      else { demoStamps[phone] = ((demoStamps[phone] || 0) % CONFIG.loyalty.stampsNeeded) + 1; res = { ok: true, stamps: demoStamps[phone], reward: demoStamps[phone] === CONFIG.loyalty.stampsNeeded }; }
-    } else {
-      try {
-        const u = `${CONFIG.scriptUrl}?action=stamp&client=${encodeURIComponent(CONFIG.clientId)}&phone=${phone}&code=${encodeURIComponent(code)}&need=${CONFIG.loyalty.stampsNeeded}&source=${encodeURIComponent(source)}`;
-        res = await (await fetch(u)).json();
-      } catch(e) { res = { ok: false, error: "Couldn't reach the server. Please try again." }; }
-    }
-    btn.disabled = false; btn.textContent = "Add my stamp";
-    if (!res.ok) { msg.textContent = res.error || "Something went wrong."; if (res.stamps != null) { shown = res.stamps; drawStamps(res.stamps); } return; }
-    if (res.stamps < shown) shown = 0;
-    drawStamps(res.stamps);
-    msg.className = "ok";
-    msg.textContent = res.reward ? `🎉 Card complete: ${CONFIG.loyalty.reward}! Show this screen at the counter.` : `Stamp added. ${CONFIG.loyalty.stampsNeeded - res.stamps} more to go.`;
-    if (res.reward) confetti();
-  });
-
-  // ---- VIP Club
-  $("club-form").addEventListener("submit", e => {
-    e.preventDefault();
-    const err = $("f-err");
-    const name = $("f-name").value.trim(), phone = cleanPhone($("f-phone").value);
-    if (!name) { err.textContent = "Please enter your name."; $("f-name").focus(); return; }
-    if (!phone) { err.textContent = "Please enter a valid 10-digit mobile number."; $("f-phone").focus(); return; }
-    if (!$("f-consent").checked) { err.textContent = "Please tick the box to agree to WhatsApp messages."; return; }
-    err.textContent = "";
-    send({ type: "member", name, phone, birthday: $("f-bday").value, service: "", consent: "yes", consentText: $("consent-text").textContent });
-    $("club-form").hidden = true; $("f-done").hidden = false;
-    confetti();
-  });
-
-  renderTabs(); renderItems(); renderCart();
-})();
 </script>
+<script src="../tap.js"></script>
 </body>
 </html>
