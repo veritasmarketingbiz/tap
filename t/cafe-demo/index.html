@@ -60,7 +60,8 @@ p{margin:0}
   box-shadow:0 0 0 4px rgba(232,169,59,.35),0 10px 24px -8px rgba(0,0,0,.5);animation:glow 2.6s ease-in-out infinite}
 @keyframes glow{50%{box-shadow:0 0 0 7px rgba(232,169,59,.18),0 10px 24px -8px rgba(0,0,0,.5)}}
 .hero .cta .stars{color:#E8A93B;font-size:26px;letter-spacing:3px;line-height:1.1}
-.hero .cta b{font:400 25px/1.15 "DM Serif Display",Georgia,serif}
+.hero .cta{text-align:center}
+.hero .cta b{font:400 clamp(21px,6.6vw,25px)/1.15 "DM Serif Display",Georgia,serif;text-wrap:balance}
 .hero .cta small{font-size:13px;color:var(--muted);font-weight:500}
 .hero .cta::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(200,129,58,.25) 50%,transparent 60%);transform:translateX(-100%);animation:shine 4.5s 1.2s ease-in-out infinite}
 @keyframes shine{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
