@@ -15,6 +15,11 @@ visit = +localStorage.getItem(kv) || 0;
 if (localStorage.getItem(kl) !== today) { visit++; localStorage.setItem(kv, visit); localStorage.setItem(kl, today); }
 visit = visit || 1;
 } catch (e) {}
+// the customer's own name + number, remembered on their phone for THIS café only (never shared across cafés)
+const pk = "vt_profile_" + CONFIG.clientId;
+let me = {};
+try { me = JSON.parse(localStorage.getItem(pk) || "{}") || {}; } catch (e) {}
+const remember = (phone, name) => { if (phone) me.phone = phone; if (name) me.name = name; try { localStorage.setItem(pk, JSON.stringify(me)); } catch (e) {} };
   const icon = k => `<svg aria-hidden="true"><use href="#i-${k || "cup"}"/></svg>`;
 
   // ---- Apply config
@@ -56,7 +61,7 @@ visit = visit || 1;
   // ---- Tracking
   function send(payload){
     if (demo) return;
-    const body = JSON.stringify(Object.assign({ clientId: CONFIG.clientId, source, device, vid, visit }, payload));
+    const body = JSON.stringify(Object.assign({ clientId: CONFIG.clientId, source, device, vid, visit, phone: me.phone || "", name: me.name || "" }, payload));
     try { if (navigator.sendBeacon && navigator.sendBeacon(CONFIG.scriptUrl, body)) return; } catch(e){}
     fetch(CONFIG.scriptUrl, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain" }, body }).catch(()=>{});
   }
@@ -106,6 +111,7 @@ if (!name) { err.textContent = "Please enter your name."; $("c-name").focus(); r
 if (!phone) { err.textContent = "Please enter a valid 10-digit WhatsApp number."; $("c-phone").focus(); return; }
 if (!$("c-consent").checked) { err.textContent = "Please tick the box so we can reply to you."; return; }
 err.textContent = "";
+remember(phone, name);
 send({ type: "enquiry", occasion: occ, eventDate: date, people, name, phone, consent: "yes", consentText: $("c-consent-text").textContent });
 $("cel-form").hidden = true;
 $("c-done-text").textContent = `Thank you, ${name}! ${CONFIG.name} will contact you on WhatsApp soon to plan your ${occ.toLowerCase()}.`;
@@ -172,7 +178,7 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
     const extraLabel = orderType === "Dine-in" ? "Table" : orderType === "Delivery" ? "Address" : "Pickup time";
     const msg = [`New ${orderType} order — ${CONFIG.name}`, "", ...ls.map(l => `${l.q} × ${l.n} — ${rs(l.t)}`), "",
       `Subtotal: ${rs(t.sub)}`, ...(t.disc ? [`Direct order discount: −${rs(t.disc)}`] : []), `Total: ${rs(t.total)}`, "",
-      `Name: ${$("o-name").value.trim() || "-"}`, `${extraLabel}: ${extra || "-"}`].join("\n");
+      `Name: ${$("o-name").value.trim() || "-"}`, `Phone: ${$("o-phone").value.trim() || "-"}`, `${extraLabel}: ${extra || "-"}`].join("\n");
     $("send-order").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
   }
   document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
@@ -181,13 +187,21 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
     $("o-extra-label").firstChild.textContent = orderType === "Dine-in" ? "Table number" : orderType === "Delivery" ? "Delivery address" : "Pickup time";
     renderSheet();
   }));
-  ["o-name", "o-extra"].forEach(id => $(id).addEventListener("input", renderSheet));
+  ["o-name", "o-phone", "o-extra"].forEach(id => $(id).addEventListener("input", renderSheet));
   function closeSheet(){ $("sheet").hidden = true; }
   $("cart-open").addEventListener("click", () => { ev("cart_open", $("cart-count").textContent); renderSheet(); $("sheet").hidden = false; $("o-name").focus(); });
   $("sheet-close").addEventListener("click", closeSheet);
   $("sheet").addEventListener("click", e => { if (e.target.id === "sheet") closeSheet(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") { closeSheet(); closeCel(); } });
-  $("send-order").addEventListener("click", () => { const t = totals(), ls = lines(); send({ type: "order", orderType, items: ls.map(l => `${l.q} × ${l.n}`).join(", "), itemCount: ls.reduce((s, l) => s + l.q, 0), subtotal: t.sub, discount: t.disc, total: t.total, name: $("o-name").value.trim(), extra: orderType === "Delivery" ? "" : $("o-extra").value.trim() }); });
+  $("send-order").addEventListener("click", e => {
+    const err = $("o-err"), name = $("o-name").value.trim(), phone = cleanPhone($("o-phone").value);
+    if (!name) { e.preventDefault(); err.textContent = "Please enter your name."; $("o-name").focus(); return; }
+    if (!phone) { e.preventDefault(); err.textContent = "Please enter a valid 10-digit WhatsApp number."; $("o-phone").focus(); return; }
+    err.textContent = "";
+    remember(phone, name);
+    const t = totals(), ls = lines();
+    send({ type: "order", orderType, items: ls.map(l => `${l.q} × ${l.n}`).join(", "), itemCount: ls.reduce((s, l) => s + l.q, 0), subtotal: t.sub, discount: t.disc, total: t.total, name, phone, extra: orderType === "Delivery" ? "" : $("o-extra").value.trim() });
+  });
 
   // ---- Wi-Fi
   $("wifi-copy").addEventListener("click", () => {
@@ -220,13 +234,14 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
       else { demoStamps[phone] = ((demoStamps[phone] || 0) % CONFIG.loyalty.stampsNeeded) + 1; res = { ok: true, stamps: demoStamps[phone], reward: demoStamps[phone] === CONFIG.loyalty.stampsNeeded }; }
     } else {
       try {
-        const u = `${CONFIG.scriptUrl}?action=stamp&client=${encodeURIComponent(CONFIG.clientId)}&phone=${phone}&code=${encodeURIComponent(code)}&need=${CONFIG.loyalty.stampsNeeded}&source=${encodeURIComponent(source)}`;
+        const u = `${CONFIG.scriptUrl}?action=stamp&client=${encodeURIComponent(CONFIG.clientId)}&phone=${phone}&code=${encodeURIComponent(code)}&need=${CONFIG.loyalty.stampsNeeded}&source=${encodeURIComponent(source)}&vid=${encodeURIComponent(vid)}`;
         res = await (await fetch(u)).json();
       } catch(e) { res = { ok: false, error: "Couldn't reach the server. Please try again." }; }
     }
     btn.disabled = false; btn.textContent = "Add my stamp";
     if (!res.ok) { msg.textContent = res.error || "Something went wrong."; if (res.stamps != null) { shown = res.stamps; drawStamps(res.stamps); } return; }
     if (res.stamps < shown) shown = 0;
+    remember(phone);
     drawStamps(res.stamps);
     msg.className = "ok";
     msg.textContent = res.reward ? `🎉 Card complete: ${CONFIG.loyalty.reward}! Show this screen at the counter.` : `Stamp added. ${CONFIG.loyalty.stampsNeeded - res.stamps} more to go.`;
@@ -242,10 +257,15 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
     if (!phone) { err.textContent = "Please enter a valid 10-digit mobile number."; $("f-phone").focus(); return; }
     if (!$("f-consent").checked) { err.textContent = "Please tick the box to agree to WhatsApp messages."; return; }
     err.textContent = "";
+    remember(phone, name);
     send({ type: "member", name, phone, birthday: $("f-bday").value, service: "", consent: "yes", consentText: $("consent-text").textContent });
     $("club-form").hidden = true; $("f-done").hidden = false;
     confetti();
   });
+
+  // fill in what we already know about this customer
+  if (me.phone) ["o-phone", "f-phone", "c-phone", "l-phone"].forEach(id => $(id).value = me.phone);
+  if (me.name) ["o-name", "f-name", "c-name"].forEach(id => $(id).value = me.name);
 
   renderTabs(); renderItems(); renderCart();
 })();
