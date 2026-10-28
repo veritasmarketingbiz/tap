@@ -161,12 +161,15 @@
       <button type="button" data-t="Delivery" aria-pressed="false">Delivery</button>
     </div>
     <label for="o-name">Name<input id="o-name" autocomplete="name" maxlength="60"></label>
+    <label for="o-phone">WhatsApp number<input id="o-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+    <p class="muted small" style="margin-top:-8px">Used for your order and to recognise you on your next visit.</p>
     <label for="o-extra" id="o-extra-label">Table number<input id="o-extra" maxlength="160"></label>
     <div>
       <div class="sum"><span>Subtotal</span><span class="price" id="s-sub"></span></div>
       <div class="sum" id="s-disc-row"><span id="s-disc-label">Direct order discount</span><span class="price" id="s-disc"></span></div>
       <div class="sum total"><span>Total</span><span class="price" id="s-total"></span></div>
     </div>
+    <p class="err" id="o-err" role="alert"></p>
     <a class="btn btn-primary" id="send-order" href="#" target="_blank" rel="noopener"><svg><use href="#u-wa"/></svg>Send order on WhatsApp</a>
     <button class="btn btn-ghost" id="sheet-close" type="button">Keep browsing</button>
   </div>
