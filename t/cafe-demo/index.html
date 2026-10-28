@@ -3,87 +3,182 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Veritas Café Tap Page</title>
+<title>Veritas Café</title>
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#3B2418">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Mukta:wght@400;500;600;700&display=swap">
-</head>
-<body>
 <style>
 :root{
-  --bg:#F5F6F3; --card:#FFFFFF; --ink:#1A211D; --muted:#5F6B64; --line:#DDE3DE;
-  --brand:#1F4D3A; --brand-ink:#FFFFFF; --brand-soft:#E3EEE8; --gold:#B7791F; --gold-soft:#FBF1DF;
-  --veg:#1E8E3E; --nonveg:#B3261E; --err:#B3261E;
+  --bg:#F7F1E8; --card:#FFFDF9; --ink:#2A1D15; --muted:#7A6656; --line:#EADFCF;
+  --brand:#3B2418; --brand-ink:#FFF8EE; --accent:#C8813A; --accent-soft:#F6E7D3;
+  --kraft:#E9D6B8; --kraft-ink:#5A3C22; --thumb:#F3E7D7;
+  --veg:#1E8E3E; --nonveg:#B3261E; --err:#B3261E; --ok:#2F7A4B;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
-  --bg:#111613;--card:#1A211D;--ink:#ECF1EE;--muted:#A3B0A8;--line:#2D3832;
-  --brand:#7CC4A0;--brand-ink:#0F1A14;--brand-soft:#1F3229;--gold:#E3AE5A;--gold-soft:#33291A;
-  --veg:#5CC97A;--nonveg:#F2968F;--err:#F2968F;}}
-:root[data-theme="dark"]{color-scheme:dark;
-  --bg:#111613;--card:#1A211D;--ink:#ECF1EE;--muted:#A3B0A8;--line:#2D3832;
-  --brand:#7CC4A0;--brand-ink:#0F1A14;--brand-soft:#1F3229;--gold:#E3AE5A;--gold-soft:#33291A;
-  --veg:#5CC97A;--nonveg:#F2968F;--err:#F2968F;}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;
+  --bg:#17110D; --card:#211913; --ink:#F3E9DD; --muted:#B8A593; --line:#3A2D23;
+  --accent:#E3A15E; --accent-soft:#3A2A1B; --kraft:#4A3626; --kraft-ink:#F1DEC4; --thumb:#2E231A;
+  --veg:#5CC97A; --nonveg:#F2968F; --err:#F2968F; --ok:#7FD39F;}}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Mukta",system-ui,sans-serif;padding-inline:16px;padding-block:20px 120px}
-.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Mukta",system-ui,sans-serif;padding:0 14px 120px;
+  background-image:radial-gradient(var(--line) 1.2px,transparent 1.3px);background-size:22px 22px}
+.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0;text-wrap:balance}
-h1{font-size:32px;line-height:1.1}
-h2{font-size:22px}
+h2{font-size:23px;display:flex;align-items:center;gap:10px}
+h2 svg{width:26px;height:26px;flex:none;color:var(--accent)}
 p{margin:0}
-.muted{color:var(--muted)}
-.small{font-size:13px}
-.demo{font-size:12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:6px}
-.head{display:flex;gap:14px;align-items:center}
-.logo{width:64px;height:64px;flex:none;border-radius:16px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font:30px "DM Serif Display",Georgia,serif}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-block:8px;margin-block:-8px}
-.chips a{flex:none;font-size:14px;font-weight:600;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;padding:10px 16px;border-radius:14px;border:0;font:600 16px "Mukta",system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.muted{color:var(--muted)} .small{font-size:13px}
+.demo{font-size:12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:6px;margin-top:10px;background:var(--card)}
+
+/* HERO */
+.hero{position:relative;margin:12px -2px 0;border-radius:26px;overflow:hidden;color:var(--brand-ink);
+  background:radial-gradient(120% 90% at 85% 10%,rgba(255,255,255,.14),transparent 60%),var(--brand);padding:22px 20px 20px;isolation:isolate}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.13;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='%23fff'%3E%3Cellipse cx='14' cy='16' rx='5' ry='7' transform='rotate(30 14 16)'/%3E%3Cellipse cx='46' cy='44' rx='5' ry='7' transform='rotate(-25 46 44)'/%3E%3C/g%3E%3Cg stroke='%23000' stroke-width='1.2' fill='none'%3E%3Cpath d='M11 11q5 5 6 10'/%3E%3Cpath d='M48 38q-4 5-3 11'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.14)}
+.badge i{width:8px;height:8px;border-radius:50%;background:#7BE39A;box-shadow:0 0 0 3px rgba(123,227,154,.25)}
+.badge.closed i{background:#F2968F;box-shadow:0 0 0 3px rgba(242,150,143,.25)}
+.mono{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--brand-ink);color:var(--brand);font:22px "DM Serif Display",Georgia,serif}
+.hero-body{display:grid;grid-template-columns:1fr 132px;align-items:end;gap:6px;margin-top:6px}
+.hero h1{font-size:33px;line-height:1.05}
+.hero .tag{opacity:.85;font-size:14px;margin-top:6px}
+.cupwrap{position:relative;width:132px;height:140px}
+.cupwrap svg{width:100%;height:100%;overflow:visible}
+.steam path{fill:none;stroke:var(--brand-ink);stroke-width:4;stroke-linecap:round;opacity:0;animation:steam 3.2s ease-in-out infinite}
+.steam path:nth-child(2){animation-delay:1s}
+.steam path:nth-child(3){animation-delay:2s}
+@keyframes steam{0%{opacity:0;transform:translateY(10px)}35%{opacity:.75}100%{opacity:0;transform:translateY(-16px)}}
+.cup-bob{animation:bob 4s ease-in-out infinite;transform-origin:center bottom}
+@keyframes bob{50%{transform:translateY(-2px) rotate(-1deg)}}
+.hero .ask{margin-top:16px;text-align:center;font-size:15px;opacity:.9}
+.hero .cta{margin-top:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:12px 14px 10px;border-radius:18px;
+  background:var(--brand-ink);color:var(--brand);text-decoration:none;position:relative;overflow:hidden;
+  box-shadow:0 0 0 4px rgba(232,169,59,.35),0 10px 24px -8px rgba(0,0,0,.5);animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 7px rgba(232,169,59,.18),0 10px 24px -8px rgba(0,0,0,.5)}}
+.hero .cta .stars{color:#E8A93B;font-size:26px;letter-spacing:3px;line-height:1.1}
+.hero .cta b{font:400 25px/1.15 "DM Serif Display",Georgia,serif}
+.hero .cta small{font-size:13px;color:var(--muted);font-weight:500}
+.hero .cta::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(200,129,58,.25) 50%,transparent 60%);transform:translateX(-100%);animation:shine 4.5s 1.2s ease-in-out infinite}
+@keyframes shine{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* TILES */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px 10px;border-radius:16px;background:var(--card);border:1px solid var(--line);
+  color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;transition:transform .15s}
+.tile:active{transform:scale(.95)}
+.tile span{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.tile svg{width:22px;height:22px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;padding:10px 16px;border-radius:14px;border:0;font:600 16px "Mukta",system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
 .btn-primary{background:var(--brand);color:var(--brand-ink)}
 .btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.soc{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:transform .12s}
+.soc:active{transform:scale(.97)}
+.soc svg{width:30px;height:30px;flex:none}
+.soc b{display:block;font-size:15px;line-height:1.2}
+.soc small{display:block;font-size:12px;color:var(--muted);line-height:1.3}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn:focus-visible,input:focus-visible,select:focus-visible,.chips a:focus-visible,.qty button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:60px}
-.offer{background:var(--gold-soft);color:var(--ink);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:500}
+.btn:focus-visible,input:focus-visible,.tile:focus-visible,.qty button:focus-visible,.tabs button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .feedback{text-align:center;font-size:14px}
 .feedback a{color:var(--muted)}
-/* menu */
-.tabs{display:flex;gap:6px;overflow-x:auto}
-.tabs button{flex:none;font:600 14px "Mukta",sans-serif;padding:6px 12px;border-radius:8px;border:0;background:transparent;color:var(--muted);cursor:pointer}
-.tabs button[aria-selected="true"]{background:var(--brand-soft);color:var(--ink)}
-.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:12px;box-shadow:0 1px 0 rgba(59,36,24,.04),0 8px 24px -16px rgba(59,36,24,.25)}
+.offer{background:var(--accent-soft);color:var(--ink);border-radius:12px;padding:9px 12px;font-size:14px;font-weight:500}
+
+/* MENU */
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -4px;padding:2px 4px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;display:flex;align-items:center;gap:6px;font:600 14px "Mukta",sans-serif;padding:5px 12px 5px 6px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+.tabs button svg{width:26px;height:26px}
+.tabs button[aria-selected="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
 .item:last-child{border-bottom:0}
-.dot{width:14px;height:14px;flex:none;border:1.5px solid currentColor;border-radius:3px;display:grid;place-items:center}
+.thumb{width:58px;height:58px;flex:none;border-radius:16px;background:var(--thumb);display:grid;place-items:center;position:relative}
+.thumb svg{width:46px;height:46px}
+.dot{position:absolute;top:-3px;right:-3px;width:15px;height:15px;background:var(--card);border:1.5px solid currentColor;border-radius:3px;display:grid;place-items:center}
 .dot::after{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 .dot.v{color:var(--veg)} .dot.n{color:var(--nonveg)}
 .item .info{flex:1;min-width:0}
-.item .nm{font-weight:600;line-height:1.3}
+.item .nm{font-weight:600;line-height:1.25}
 .item .ds{font-size:13px;color:var(--muted);line-height:1.35}
-.price{font-variant-numeric:tabular-nums;font-weight:600}
+.price{font-variant-numeric:tabular-nums;font-weight:700}
 .qty{display:flex;align-items:center;gap:6px}
-.qty button{width:32px;height:32px;border-radius:8px;border:1px solid var(--brand);background:var(--card);color:var(--brand);font:700 18px "Mukta",sans-serif;cursor:pointer;line-height:1}
-.qty .add{width:auto;padding:0 14px;font-size:14px}
-.qty span{min-width:18px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
-/* wifi */
-.wifi{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:15px}
-.wifi b{font-weight:600}
-/* forms */
+.qty button{width:32px;height:32px;border-radius:10px;border:1.5px solid var(--brand);background:var(--card);color:var(--brand);font:700 18px "Mukta",sans-serif;cursor:pointer;line-height:1}
+.qty .add{width:auto;padding:0 14px;font-size:14px;background:var(--brand);color:var(--brand-ink)}
+.qty span{min-width:18px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.pop{animation:pop .25s ease-out}
+@keyframes pop{50%{transform:scale(1.18)}}
+@media (prefers-color-scheme:dark){.qty button{border-color:var(--accent);color:var(--accent)} .qty .add{background:var(--accent);color:#1A120C} .tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#1A120C} .btn-primary{background:var(--accent);color:#1A120C}}
+
+/* WIFI */
+.wifi{display:flex;align-items:center;gap:14px;background:var(--bg);border-radius:14px;padding:12px 14px}
+.wifi .ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.wifi .ic svg{width:24px;height:24px}
+.wifi dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:0 12px;font-size:15px}
+.wifi dt{color:var(--muted)} .wifi dd{margin:0;font-weight:700}
+
+/* LOYALTY: kraft coffee card */
+.kraft{background:var(--kraft);color:var(--kraft-ink);border-radius:16px;padding:14px;position:relative;
+  background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.025) 0 2px,transparent 2px 6px)}
+.kraft::before,.kraft::after{content:"";position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--card);transform:translateY(-50%)}
+.kraft::before{left:-8px} .kraft::after{right:-8px}
+.ribbon{align-self:flex-start;margin-top:-4px;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;color:#fff;background:#9C3D22;padding:4px 12px 4px 10px;border-radius:99px}
+.kraft .big{text-align:center;font:24px/1.15 "DM Serif Display",Georgia,serif;margin:2px 0 12px}
+.kraft .big em{font-style:normal;color:#9C3D22}
+.stamp.free{border:2px solid #9C3D22;background:#FFF6E8;color:#9C3D22;font-size:11px;font-weight:800;letter-spacing:.5px}
+.stamp.free.on{background:#9C3D22;color:#fff}
+.kraft .kt{display:flex;justify-content:space-between;font:15px "DM Serif Display",Georgia,serif;margin-bottom:10px;border-bottom:1.5px dashed rgba(90,60,34,.35);padding-bottom:8px}
+.stamps{display:flex;gap:8px;justify-content:center}
+.stamp{width:46px;height:46px;border-radius:50%;border:2px dashed rgba(90,60,34,.45);display:grid;place-items:center;font-weight:700;font-size:15px;color:rgba(90,60,34,.6)}
+.stamp svg{width:28px;height:28px}
+.stamp.on{border:2.5px solid #9C3D22;color:#9C3D22;background:rgba(156,61,34,.08);transform:rotate(-8deg)}
+.stamp.new{animation:thump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes thump{0%{transform:scale(2.2) rotate(-25deg);opacity:0}100%{transform:scale(1) rotate(-8deg);opacity:1}}
+@media (prefers-color-scheme:dark){.stamp.on{border-color:#F0A07E;color:#F0A07E}}
+
+/* VIP gold card */
+.vip{border-radius:18px;padding:18px;color:#F3D79A;background:radial-gradient(120% 120% at 100% 0%,#4A3020 0%,#1E140E 60%);position:relative;overflow:hidden;border:1.5px solid #C9A04E;box-shadow:inset 0 0 0 4px #1E140E,inset 0 0 0 5px rgba(201,160,78,.45)}
+.gold{background:linear-gradient(100deg,#F7E2A8,#D3A148 45%,#FFF0C2 60%,#C99536);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vip .lbl{font-size:11px;letter-spacing:3px;font-weight:700;color:#C9A04E}
+.vip .chip{width:34px;height:26px;border-radius:6px;background:linear-gradient(135deg,#F7E2A8,#C99536);margin:12px 0 8px;position:relative}
+.vip .chip::after{content:"";position:absolute;inset:6px 9px;border:1px solid rgba(80,50,10,.45);border-radius:3px}
+.vip .num{display:flex;justify-content:space-between;align-items:end;font-size:13px;letter-spacing:2px;color:#D8C08A}
+.vip .num b{font:20px "DM Serif Display",Georgia,serif;letter-spacing:0}
+.perks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.perks li{display:flex;gap:12px;align-items:center;font-size:15px;line-height:1.3}
+.perks li span{width:40px;height:40px;flex:none;border-radius:12px;background:linear-gradient(135deg,#FBEFD0,#F1D79C);display:grid;place-items:center;font-size:20px}
+.perks li b{display:block}
+.perks li small{color:var(--muted);font-size:13px}
+.free-note{text-align:center;font-size:13px;color:var(--muted);margin-top:-2px}
+.vip::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-100%);animation:shine 5s 2s ease-in-out infinite}
+.vip .vt{display:flex;justify-content:space-between;align-items:center}
+.vip .vt svg{width:30px;height:30px;color:#D3A148}
+.vip p{font-size:14px;margin-top:2px;color:#D8C08A}
+
 label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:500}
-input,select{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+input{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
 .check{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;color:var(--muted);font-size:13px;line-height:1.45}
 .check input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--brand)}
 .err{color:var(--err);font-size:13px;min-height:1em}
-.ok{color:var(--brand);font-weight:600}
-/* stamps */
-.stamps{display:flex;gap:10px;justify-content:center}
-.stamp{width:44px;height:44px;border-radius:50%;border:2px dashed var(--line);display:grid;place-items:center;font-size:20px;color:var(--muted)}
-.stamp.on{border:2px solid var(--gold);background:var(--gold-soft);color:var(--gold)}
-/* cart bar + sheet */
-.cartbar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:10}
+.ok{color:var(--ok);font-weight:600}
+.done{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:8px 0}
+.done svg{width:64px;height:64px}
+.done circle{stroke-dasharray:160;stroke-dashoffset:160;animation:draw .6s ease-out forwards}
+.done path{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .35s .5s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* cart */
+.cartbar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:10;animation:up .3s ease-out}
+@keyframes up{from{transform:translateY(100%)}}
 .cartbar .btn{max-width:460px;margin:0 auto;justify-content:space-between}
-.sheet{position:fixed;inset:0;background:rgba(10,15,12,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}
-.sheet .inner{background:var(--card);width:100%;max-width:500px;max-height:90%;overflow:auto;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.sheet{position:fixed;inset:0;background:rgba(20,12,8,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet .inner{background:var(--card);width:100%;max-width:500px;max-height:90%;overflow:auto;border-radius:22px 22px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:up .28s ease-out}
 .sum{display:flex;justify-content:space-between;font-size:15px}
 .sum.total{font-weight:700;font-size:17px;border-top:1px solid var(--line);padding-top:8px}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
@@ -91,48 +186,108 @@ input,select{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px
 .seg button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .foot{text-align:center;font-size:12px;color:var(--muted)}
 .foot a{color:var(--muted)}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.confetti{position:fixed;top:-12px;width:8px;height:12px;z-index:30;pointer-events:none;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translate(var(--x),105vh) rotate(var(--r))}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}.steam path{opacity:.5}}
 </style>
+</head>
+<body>
+<!-- Illustrations (one sprite, reused everywhere) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="i-cup" viewBox="0 0 48 48"><ellipse cx="22" cy="40" rx="17" ry="3.5" fill="#D9C2A3"/><path d="M35 21h3.2a5.5 5.5 0 0 1 0 11H34" fill="none" stroke="#3B2418" stroke-width="2.6"/><path d="M8 17h28l-2.6 17.5A6 6 0 0 1 27.5 40h-11a6 6 0 0 1-5.9-5.5z" fill="#fff" stroke="#3B2418" stroke-width="2"/><ellipse cx="22" cy="17.5" rx="13.5" ry="3.4" fill="#8B5A2B"/><path d="M19 17.5c0-2 3-2.4 3-.6 0-1.8 3-1.4 3 .6s-3 2.6-3 2.6-3-.6-3-2.6z" fill="#F3E2C7"/></symbol>
+  <symbol id="i-iced" viewBox="0 0 48 48"><path d="M30 2l-3.5 26" stroke="#C8813A" stroke-width="3" stroke-linecap="round"/><path d="M12 12h24l-3.4 30H15.4z" fill="#EAF3F6" stroke="#3B2418" stroke-width="2"/><path d="M13.7 21h20.6l-2.6 20H16.3z" fill="#B07A4A"/><rect x="16" y="15" width="7" height="7" rx="1.5" fill="#fff" opacity=".9" transform="rotate(-12 19 18)"/><rect x="24" y="17" width="7" height="7" rx="1.5" fill="#fff" opacity=".9" transform="rotate(14 27 20)"/></symbol>
+  <symbol id="i-frappe" viewBox="0 0 48 48"><path d="M28 1l-2 12" stroke="#C8813A" stroke-width="3" stroke-linecap="round"/><path d="M13 18h22l-3 25H16z" fill="#C99A6B" stroke="#3B2418" stroke-width="2"/><path d="M11 18c0-6 4-8 7-8 1-3 4-4 6-4s5 1 6 4c3 0 7 2 7 8z" fill="#FFF7EC" stroke="#3B2418" stroke-width="2"/><path d="M15 15c3 2 6-1 9 1s6-1 9 1" stroke="#7A4A26" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-shake" viewBox="0 0 48 48"><path d="M29 1l-2 12" stroke="#E46A7C" stroke-width="3" stroke-linecap="round"/><path d="M13 18h22l-3 25H16z" fill="#6B4A3A" stroke="#3B2418" stroke-width="2"/><path d="M11 18c0-6 4-8 7-8 1-3 4-4 6-4s5 1 6 4c3 0 7 2 7 8z" fill="#FFF7EC" stroke="#3B2418" stroke-width="2"/><circle cx="20" cy="11" r="4" fill="#2B1B14"/><circle cx="20" cy="11" r="1.6" fill="#fff" opacity=".6"/><path d="M15 26h18M16 32h16" stroke="#8C6552" stroke-width="2"/></symbol>
+  <symbol id="i-smoothie" viewBox="0 0 48 48"><path d="M28 2l-2 14" stroke="#3FA36B" stroke-width="3" stroke-linecap="round"/><path d="M12 14h24l-3.4 29H15.4z" fill="#F7A823" stroke="#3B2418" stroke-width="2"/><path d="M13 20h22" stroke="#FFD27A" stroke-width="3"/><path d="M30 14a8 8 0 0 1 12-6l-4 8z" fill="#FFC23D" stroke="#3B2418" stroke-width="1.8"/></symbol>
+  <symbol id="i-fries" viewBox="0 0 48 48"><g fill="#F5C542" stroke="#B9822A" stroke-width="1"><rect x="13" y="6" width="4.5" height="22" rx="1" transform="rotate(-10 15 17)"/><rect x="19" y="3" width="4.5" height="24" rx="1"/><rect x="25" y="5" width="4.5" height="23" rx="1" transform="rotate(8 27 16)"/><rect x="30" y="8" width="4.5" height="20" rx="1" transform="rotate(16 32 18)"/></g><path d="M10 20h28l-3.5 23h-21z" fill="#D64535" stroke="#3B2418" stroke-width="2"/><path d="M17 27c2 4 12 4 14 0" stroke="#fff" stroke-width="2.4" fill="none"/></symbol>
+  <symbol id="i-bread" viewBox="0 0 48 48"><g stroke="#3B2418" stroke-width="2"><path d="M5 30l20-16 6 7-20 16z" fill="#E8B865"/><path d="M15 36l20-16 6 7-20 16z" fill="#F1C878"/></g><g fill="#4C9A4E"><circle cx="16" cy="27" r="1.4"/><circle cx="22" cy="23" r="1.4"/><circle cx="27" cy="31" r="1.4"/><circle cx="32" cy="27" r="1.4"/><circle cx="24" cy="35" r="1.4"/></g><path d="M18 30l3-2M28 38l3-2" stroke="#FFF3C4" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-popcorn" viewBox="0 0 48 48"><g fill="#D9A15A" stroke="#8B5A2B" stroke-width="1.4"><circle cx="15" cy="20" r="6"/><circle cx="25" cy="16" r="6.5"/><circle cx="34" cy="21" r="5.5"/><circle cx="20" cy="24" r="5"/><circle cx="30" cy="25" r="5"/></g><path d="M7 25h34a17 15 0 0 1-34 0z" fill="#C8813A" stroke="#3B2418" stroke-width="2"/><path d="M12 31h24" stroke="#F6E7D3" stroke-width="2"/><circle cx="38" cy="10" r="4" fill="#9ED3A8"/></symbol>
+  <symbol id="i-sandwich" viewBox="0 0 48 48"><path d="M6 38L24 8l18 30z" fill="#EBC58A" stroke="#3B2418" stroke-width="2" stroke-linejoin="round"/><path d="M10 33h28" stroke="#5BAE5B" stroke-width="3.4" stroke-linecap="round"/><path d="M12 29h24" stroke="#E57A3A" stroke-width="3" stroke-linecap="round"/><path d="M9 38h30" stroke="#C99350" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-pasta" viewBox="0 0 48 48"><path d="M12 22c2-8 6-10 8-8 1-4 6-5 8-2 3-2 8 0 8 5 2 0 3 3 0 5" fill="#F2D9A0" stroke="#C99A4A" stroke-width="1.6"/><path d="M15 20c3-2 5 1 8-1s5 1 8-1" stroke="#C99A4A" stroke-width="1.6" fill="none"/><path d="M5 22h38a19 15 0 0 1-38 0z" fill="#fff" stroke="#3B2418" stroke-width="2"/><ellipse cx="24" cy="22" rx="19" ry="2.5" fill="#E8E2D8"/><circle cx="20" cy="15" r="1.5" fill="#4C9A4E"/><circle cx="29" cy="14" r="1.5" fill="#4C9A4E"/></symbol>
+  <symbol id="i-pizza" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="#D9963F" stroke="#3B2418" stroke-width="2"/><circle cx="24" cy="24" r="15" fill="#F2C14E"/><g fill="#C9372C"><circle cx="18" cy="18" r="3.2"/><circle cx="30" cy="20" r="3.2"/><circle cx="21" cy="30" r="3.2"/><circle cx="31" cy="30" r="2.6"/></g><g fill="#3E9A4A"><ellipse cx="25" cy="15" rx="2.6" ry="1.4"/><ellipse cx="15" cy="26" rx="2.6" ry="1.4" transform="rotate(40 15 26)"/></g><path d="M24 5v38M5 24h38" stroke="#D9963F" stroke-width="1"/></symbol>
+  <symbol id="i-burger" viewBox="0 0 48 48"><path d="M7 21a17 13 0 0 1 34 0z" fill="#D9963F" stroke="#3B2418" stroke-width="2"/><g fill="#FFF3D6"><ellipse cx="17" cy="14" rx="1.3" ry=".8"/><ellipse cx="24" cy="11" rx="1.3" ry=".8"/><ellipse cx="31" cy="15" rx="1.3" ry=".8"/></g><path d="M6 24c3 3 5-2 8 1s5-2 8 1 5-2 8 1 5-2 8 1 4-1 4-1" stroke="#5BAE5B" stroke-width="3.4" fill="none" stroke-linecap="round"/><rect x="7" y="27" width="34" height="6" rx="3" fill="#6B3A22"/><path d="M8 33l4 3 4-3" fill="#F5C542"/><path d="M7 36h34a3 3 0 0 1-3 4H10a3 3 0 0 1-3-4z" fill="#D9963F" stroke="#3B2418" stroke-width="2"/></symbol>
+  <!-- line icons -->
+  <symbol id="u-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20M8 8h8M8 12h6"/></symbol>
+  <symbol id="u-wifi" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="u-stamp" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10.5h1.5a2.5 2.5 0 0 1 0 5H17M8 2.5c-1 1.2 1 2.3 0 3.5M12 2.5c-1 1.2 1 2.3 0 3.5"/></symbol>
+  <symbol id="u-crown" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5z"/></symbol>
+  <linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".3" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset=".85" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
+  <symbol id="u-insta" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="url(#ig)" stroke-width="2.2"/><circle cx="12" cy="12" r="4" fill="none" stroke="url(#ig)" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="#D62976"/></symbol>
+  <symbol id="u-wag" viewBox="0 0 24 24"><path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path fill="#fff" d="M8.6 6.9c.3-.3.8-.3 1 .1l.9 1.9c.1.3 0 .6-.2.8l-.7.7c.7 1.4 1.9 2.6 3.3 3.3l.7-.7c.2-.2.5-.3.8-.2l1.9.9c.4.2.4.7.1 1-1 1.1-2.6 1.3-3.9.7a11 11 0 0 1-4.8-4.8c-.7-1.4-.4-2.9.9-3.7z"/></symbol>
+  <symbol id="u-wa" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3.5 20.5l1.3-4.3A8.5 8.5 0 1 1 8 19.3z"/><path fill="currentColor" d="M9 7.8c.3-.3.8-.3 1 .1l.8 1.6c.1.3 0 .6-.2.8l-.6.6c.6 1.3 1.7 2.4 3 3l.6-.6c.2-.2.5-.3.8-.2l1.6.8c.4.2.4.7.1 1-.9 1-2.3 1.2-3.5.6a10 10 0 0 1-4.3-4.3c-.6-1.2-.4-2.6.7-3.4z"/></symbol>
+ </defs>
+</svg>
 
 <main class="wrap">
   <p class="demo" id="demo-note" hidden>Demo mode: nothing is saved. Loyalty staff code for the demo is 1234.</p>
 
-  <header class="head">
-    <div class="logo" id="logo" aria-hidden="true">V</div>
-    <div>
-      <h1 id="biz-name">Veritas Café</h1>
-      <p class="muted small" id="biz-tag"></p>
+  <header class="hero">
+    <div class="hero-top">
+      <span class="mono" id="logo" aria-hidden="true">V</span>
+      <span class="badge" id="open-badge"><i></i><span id="open-text">Open now</span></span>
     </div>
+    <div class="hero-body">
+      <div>
+        <h1 id="biz-name">Veritas Café</h1>
+        <p class="tag" id="biz-tag"></p>
+      </div>
+      <div class="cupwrap" aria-hidden="true">
+        <svg viewBox="0 0 132 140">
+          <g class="steam"><path d="M48 52c-8-10 8-16 0-28"/><path d="M66 50c-8-10 8-16 0-30"/><path d="M84 52c-8-10 8-16 0-28"/></g>
+          <g class="cup-bob">
+            <ellipse cx="64" cy="128" rx="54" ry="9" fill="rgba(0,0,0,.25)"/>
+            <ellipse cx="64" cy="122" rx="52" ry="10" fill="#F3E2C7"/>
+            <path d="M104 74h8a14 14 0 0 1 0 28h-10" fill="none" stroke="#F3E2C7" stroke-width="7"/>
+            <path d="M22 66h84l-7 44a14 14 0 0 1-14 12H43a14 14 0 0 1-14-12z" fill="#FFF8EE"/>
+            <path d="M28 92h72" stroke="#C8813A" stroke-width="5"/>
+            <ellipse cx="64" cy="66" rx="42" ry="10" fill="#7A4A26"/>
+            <path d="M55 64c0-6 9-7 9-1 0-6 9-5 9 1s-9 8-9 8-9-2-9-8z" fill="#F3E2C7"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <p class="ask">Enjoyed your coffee? ☕</p>
+    <a class="cta" id="review-btn" href="#" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">★★★★★</span><b id="review-text">Share your love on Google</b><small>Takes just 10 seconds</small></a>
   </header>
 
-  <nav class="chips" aria-label="Sections">
-    <a href="#menu">Menu</a><a href="#wifi">Wi-Fi</a><a href="#loyalty">Loyalty</a><a href="#club">VIP Club</a>
+  <nav class="tiles" aria-label="Quick links">
+    <a class="tile" href="#menu"><span><svg><use href="#u-menu"/></svg></span>Menu</a>
+    <a class="tile" href="#wifi" id="wifi-tile"><span><svg><use href="#u-wifi"/></svg></span>Wi-Fi</a>
+    <a class="tile" href="#loyalty"><span><svg><use href="#u-stamp"/></svg></span>Stamps</a>
+    <a class="tile" href="#club"><span><svg><use href="#u-crown"/></svg></span>VIP</a>
   </nav>
 
-  <a class="btn btn-primary" id="review-btn" href="#" target="_blank" rel="noopener">★ Rate us on Google</a>
   <div class="row2">
-    <a class="btn btn-ghost" id="insta-btn" href="#" target="_blank" rel="noopener"></a>
-    <a class="btn btn-ghost" id="wa-btn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="soc" id="insta-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-insta"/></svg><span><b>Tag us on Insta</b><small id="insta-sub">Post your coffee pic &amp; follow</small></span></a>
+    <a class="soc" id="wa-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-wag"/></svg><span><b>Chat with us</b><small>Order, ask or book a table</small></span></a>
   </div>
-  <p class="feedback"><a id="fb-btn" href="#" target="_blank" rel="noopener">Something not right? Tell the owner directly</a></p>
 
   <section class="panel" id="menu" aria-labelledby="menu-h">
-    <h2 id="menu-h">Menu</h2>
+    <h2 id="menu-h"><svg><use href="#u-menu"/></svg>Menu</h2>
     <div class="offer" id="direct-offer"></div>
     <div class="tabs" role="tablist" id="tabs"></div>
     <div id="items"></div>
   </section>
 
   <section class="panel" id="wifi" aria-labelledby="wifi-h">
-    <h2 id="wifi-h">Free Wi-Fi</h2>
-    <div class="wifi"><span class="muted">Network</span><b id="wifi-name"></b><span class="muted">Password</span><b id="wifi-pass"></b></div>
+    <h2 id="wifi-h"><svg><use href="#u-wifi"/></svg>Free Wi-Fi</h2>
+    <div class="wifi">
+      <span class="ic" aria-hidden="true"><svg><use href="#u-wifi"/></svg></span>
+      <dl><dt>Network</dt><dd id="wifi-name"></dd><dt>Password</dt><dd id="wifi-pass"></dd></dl>
+    </div>
     <button class="btn btn-ghost" id="wifi-copy" type="button">Copy password</button>
   </section>
 
   <section class="panel" id="loyalty" aria-labelledby="loy-h">
-    <h2 id="loy-h">Coffee Card</h2>
+    <h2 id="loy-h"><svg><use href="#u-stamp"/></svg>Coffee Card</h2>
+    <span class="ribbon">🎁 <span id="loy-ribbon"></span></span>
+    <div class="kraft">
+      <div class="kt"><span class="bn"></span><span id="loy-short"></span></div>
+      <p class="big" id="loy-big"></p>
+      <div class="stamps" id="stamps" aria-live="polite"></div>
+    </div>
     <p class="muted small" id="loy-desc"></p>
-    <div class="stamps" id="stamps" aria-live="polite"></div>
     <label for="l-phone">Your mobile number<input id="l-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
     <label for="l-code">Today's code (ask at the counter)<input id="l-code" inputmode="numeric" maxlength="6" placeholder="4-digit code"></label>
     <p class="err" id="l-msg" role="status"></p>
@@ -140,9 +295,14 @@ input,select{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px
   </section>
 
   <section class="panel" id="club" aria-labelledby="club-h">
-    <h2 id="club-h">Join the VIP Club</h2>
-    <p class="muted small">Member-only offers, new menu drops and a birthday treat on WhatsApp.</p>
-    <div class="offer" id="join-offer"></div>
+    <div class="vip">
+      <div class="vt"><span class="lbl">MEMBERS ONLY</span><svg aria-hidden="true"><use href="#u-crown"/></svg></div>
+      <h2 id="club-h" class="gold" style="font-size:30px;margin-top:6px">VIP Club</h2>
+      <div class="chip" aria-hidden="true"></div>
+      <div class="num"><span>•••• •••• VIP</span><b class="gold bn"></b></div>
+    </div>
+    <p style="font-weight:600">What you get as a VIP</p>
+    <ul class="perks" id="perks"></ul>
     <form id="club-form" novalidate>
       <div style="display:flex;flex-direction:column;gap:10px">
         <label for="f-name">Name<input id="f-name" autocomplete="name" maxlength="60"></label>
@@ -150,12 +310,17 @@ input,select{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px
         <label for="f-bday">Birthday (optional)<input id="f-bday" type="date"></label>
         <label class="check" for="f-consent"><input id="f-consent" type="checkbox"><span id="consent-text"></span></label>
         <p class="err" id="f-err" role="alert"></p>
-        <button class="btn btn-primary" id="f-btn" type="submit">Join VIP Club</button>
+        <button class="btn btn-primary" id="f-btn" type="submit">👑 Join VIP Club</button>
+        <p class="free-note">Free to join · No spam · Reply STOP anytime</p>
       </div>
     </form>
-    <p class="ok" id="f-done" hidden>You're in! Show this screen at the counter for your welcome offer.</p>
+    <div class="done" id="f-done" hidden>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="none" stroke="var(--ok)" stroke-width="4"/><path d="M21 33l8 8 15-17" fill="none" stroke="var(--ok)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p class="ok">You're in! Show this screen at the counter for your welcome offer.</p>
+    </div>
   </section>
 
+  <p class="feedback"><a id="fb-btn" href="#" target="_blank" rel="noopener">Something not right? Tell the owner directly</a></p>
   <p class="foot"><span id="timings"></span><br>Your details are used only by <span class="bn"></span>. · Powered by <a href="#" id="powered" target="_blank" rel="noopener">Veritas</a></p>
 </main>
 
@@ -179,7 +344,7 @@ input,select{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px
       <div class="sum" id="s-disc-row"><span id="s-disc-label">Direct order discount</span><span class="price" id="s-disc"></span></div>
       <div class="sum total"><span>Total</span><span class="price" id="s-total"></span></div>
     </div>
-    <a class="btn btn-primary" id="send-order" href="#" target="_blank" rel="noopener">Send order on WhatsApp</a>
+    <a class="btn btn-primary" id="send-order" href="#" target="_blank" rel="noopener"><svg><use href="#u-wa"/></svg>Send order on WhatsApp</a>
     <button class="btn btn-ghost" id="sheet-close" type="button">Keep browsing</button>
   </div>
 </div>
@@ -188,10 +353,10 @@ input,select{font:16px "Mukta",system-ui,sans-serif;padding:10px 12px;border:1px
 /* ====== EDIT THIS FOR EACH CAFÉ ====== */
 const CONFIG = {
   clientId:    "cafe-demo",
-  name:        "Veritas Café",
+  name:        "Veritas Coffee Café",
   tagline:     "Coffee · Shakes · Bites — Hudson Lane, GTB Nagar",
   initial:     "V",
-  brandColor:  "#1F4D3A",
+  brandColor:  "#3B2418",                   // main colour (hero, buttons)
   reviewUrl:   "https://www.google.com/search?q=Dheeraj+Mehra+%7C%7C+Facebook+Ads+Expert+%7C%7C+Freelance&stick=H4sIAAAAAAAA_-NgU1I1qDC2NEhONTQ0TTQ3M0hJtDC3MqhISjM2NE62MEo0sLQ0TDazXMRq6JKRmlqUmKXgm5pRlKhQU6PglpicmpSfn63gmFKs4FpRkFpUAhYuSk3NScxLTgUAiMLOBV0AAAA&hl=en-GB&mat=CWKkjIGMvfsaElcBzAmVZoiUOdaFzFdFTR1SzyA32A0K92QoiLRwsBW_oJfEMJP7O30sxD4PvLj36-raC2c4OJT5fwRHplhnW6qp-tF_K5MwTrMSEleSf4YyTV36Raiorjk&authuser=0&ved=2ahUKEwjGmZaiwsuXAxV2cmwGHbicBVcQ-MgIegQIFRAf#lrd=0x390ce115a760da87:0xbf313c82a0991c69,3,,,,",
   instagram:   "https://www.instagram.com/veritasmarketingsolutions/",
   whatsapp:    "919560216369",              // café's WhatsApp: country code + number, no +
@@ -199,31 +364,39 @@ const CONFIG = {
   wifi:        { name: "VeritasCafe_Guest", password: "coffee2026" },
   directOffer: "10% off on takeaway and delivery orders placed here on WhatsApp",
   directDiscount: 10,                       // % off for Takeaway / Delivery
-  loyalty:     { stampsNeeded: 5, reward: "your 5th coffee is free" },
-  joinOffer:   "🍪 Free cookie with your next coffee when you join",
+  reviewText:  "Share your love on Google",
+  instaText:   "Post your coffee pic & follow",
+  loyalty:     { stampsNeeded: 5, reward: "your 5th coffee is free", ribbon: "5th coffee on us", big: "Your <em>5th coffee</em> is on us!" },
+  vipPerks: [                               // what VIP members get (confirm with the café)
+    { e: "🍪", t: "Welcome treat", s: "Free cookie with your next coffee" },
+    { e: "🎂", t: "Birthday surprise", s: "A free dessert in your birthday week" },
+    { e: "⚡", t: "First to know", s: "New menu drops before anyone else" },
+    { e: "🏷️", t: "Members-only offers", s: "Special deals on WhatsApp, only for VIPs" } ],
   timings:     "Open daily · 11 AM – 11 PM",
+  hours:       { open: 11, close: 23 },     // 24-hour clock, for the "Open now" badge
   scriptUrl:   "https://script.google.com/macros/s/AKfycbxDnkt3I7aBZkJrXqOqQwkGY17-4kuwpGDkrvmeU_nwihgIceRyizMAxtexM5J1wH08/exec",                          // Google Apps Script web app URL
   poweredBy:   "https://instagram.com/"
 };
+/* icons: cup, iced, frappe, shake, smoothie, fries, bread, popcorn, sandwich, pasta, pizza, burger */
 const MENU = [
-  { cat: "Coffee", items: [
-    { n: "Cappuccino", d: "Double shot, steamed milk", p: 149, v: true },
-    { n: "Café Latte", d: "Smooth and milky", p: 159, v: true },
-    { n: "Classic Cold Coffee", d: "Hudson Lane favourite", p: 169, v: true },
-    { n: "Hazelnut Frappé", d: "Blended with ice and hazelnut", p: 199, v: true } ]},
-  { cat: "Shakes", items: [
-    { n: "Oreo Shake", d: "Thick, with cookie crumble", p: 189, v: true },
-    { n: "KitKat Shake", d: "Chocolate and wafer", p: 199, v: true },
-    { n: "Mango Smoothie", d: "Seasonal", p: 179, v: true } ]},
-  { cat: "Bites", items: [
-    { n: "Peri Peri Fries", d: "Spicy seasoning", p: 149, v: true },
-    { n: "Cheese Garlic Bread", d: "4 pieces", p: 169, v: true },
-    { n: "Chicken Popcorn", d: "With mint mayo", p: 219, v: false } ]},
-  { cat: "Meals", items: [
-    { n: "Paneer Tikka Sandwich", d: "Grilled, with fries", p: 199, v: true },
-    { n: "White Sauce Pasta", d: "Penne, cheesy Alfredo", p: 249, v: true },
-    { n: "Margherita Pizza", d: "8 inch", p: 279, v: true },
-    { n: "Crispy Chicken Burger", d: "With fries", p: 229, v: false } ]}
+  { cat: "Coffee", icon: "cup", items: [
+    { n: "Cappuccino", d: "Double shot, steamed milk", p: 149, v: true, i: "cup" },
+    { n: "Café Latte", d: "Smooth and milky", p: 159, v: true, i: "cup" },
+    { n: "Classic Cold Coffee", d: "Hudson Lane favourite", p: 169, v: true, i: "iced" },
+    { n: "Hazelnut Frappé", d: "Blended with ice and hazelnut", p: 199, v: true, i: "frappe" } ]},
+  { cat: "Shakes", icon: "shake", items: [
+    { n: "Oreo Shake", d: "Thick, with cookie crumble", p: 189, v: true, i: "shake" },
+    { n: "KitKat Shake", d: "Chocolate and wafer", p: 199, v: true, i: "shake" },
+    { n: "Mango Smoothie", d: "Seasonal", p: 179, v: true, i: "smoothie" } ]},
+  { cat: "Bites", icon: "fries", items: [
+    { n: "Peri Peri Fries", d: "Spicy seasoning", p: 149, v: true, i: "fries" },
+    { n: "Cheese Garlic Bread", d: "4 pieces", p: 169, v: true, i: "bread" },
+    { n: "Chicken Popcorn", d: "With mint mayo", p: 219, v: false, i: "popcorn" } ]},
+  { cat: "Meals", icon: "burger", items: [
+    { n: "Paneer Tikka Sandwich", d: "Grilled, with fries", p: 199, v: true, i: "sandwich" },
+    { n: "White Sauce Pasta", d: "Penne, cheesy Alfredo", p: 249, v: true, i: "pasta" },
+    { n: "Margherita Pizza", d: "8 inch", p: 279, v: true, i: "pizza" },
+    { n: "Crispy Chicken Burger", d: "With fries", p: 229, v: false, i: "burger" } ]}
 ];
 /* ===================================== */
 
@@ -233,19 +406,27 @@ const MENU = [
   const device = /iPhone|iPad/.test(navigator.userAgent) ? "iPhone" : /Android/.test(navigator.userAgent) ? "Android" : "Other";
   const rs = n => "₹" + Math.round(n).toLocaleString("en-IN");
   const demo = !CONFIG.scriptUrl;
+  const icon = k => `<svg aria-hidden="true"><use href="#i-${k || "cup"}"/></svg>`;
 
   // ---- Apply config
   document.documentElement.style.setProperty("--brand", CONFIG.brandColor);
+  document.querySelector('meta[name="theme-color"]').content = CONFIG.brandColor;
+  document.title = CONFIG.name;
   $("biz-name").textContent = CONFIG.name;
   document.querySelectorAll(".bn").forEach(e => e.textContent = CONFIG.name);
   $("biz-tag").textContent = CONFIG.tagline;
   $("logo").textContent = CONFIG.initial;
   $("timings").textContent = CONFIG.timings;
   $("direct-offer").textContent = "🛵 " + CONFIG.directOffer;
-  $("join-offer").textContent = CONFIG.joinOffer;
-  $("wifi-name").textContent = CONFIG.wifi.name;
-  $("wifi-pass").textContent = CONFIG.wifi.password;
-  $("loy-desc").textContent = `Collect a stamp on every visit. ${CONFIG.loyalty.stampsNeeded} stamps and ${CONFIG.loyalty.reward}.`;
+  $("review-text").textContent = CONFIG.reviewText;
+  $("insta-sub").textContent = CONFIG.instaText;
+  $("loy-ribbon").textContent = CONFIG.loyalty.ribbon;
+  $("loy-big").innerHTML = CONFIG.loyalty.big;
+  $("perks").innerHTML = CONFIG.vipPerks.map(p => `<li><span aria-hidden="true">${p.e}</span><div><b>${p.t}</b><small>${p.s}</small></div></li>`).join("");
+  if (!CONFIG.wifi) { $("wifi").hidden = true; $("wifi-tile").hidden = true; }
+  if (CONFIG.wifi) { $("wifi-name").textContent = CONFIG.wifi.name; $("wifi-pass").textContent = CONFIG.wifi.password; }
+  $("loy-short").textContent = `${CONFIG.loyalty.stampsNeeded} stamps = reward`;
+  $("loy-desc").textContent = `Thank you for coming back! Get a stamp on every visit. Collect ${CONFIG.loyalty.stampsNeeded} and ${CONFIG.loyalty.reward}.`;
   $("consent-text").textContent = `I agree to receive offers and updates from ${CONFIG.name} on WhatsApp. I can stop anytime by replying STOP.`;
   $("review-btn").href = CONFIG.reviewUrl;
   $("insta-btn").href = CONFIG.instagram;
@@ -253,6 +434,12 @@ const MENU = [
   $("fb-btn").href = "https://wa.me/" + CONFIG.ownerWhatsapp + "?text=" + encodeURIComponent(`Feedback for ${CONFIG.name}: `);
   $("powered").href = CONFIG.poweredBy;
   if (demo) $("demo-note").hidden = false;
+  if (CONFIG.hours) {
+    const h = new Date().getHours(), o = CONFIG.hours.open, c = CONFIG.hours.close;
+    const open = o < c ? (h >= o && h < c) : (h >= o || h < c);
+    $("open-text").textContent = open ? "Open now" : "Closed now";
+    $("open-badge").classList.toggle("closed", !open);
+  } else $("open-badge").hidden = true;
 
   // ---- Tracking
   function send(payload){
@@ -270,26 +457,43 @@ const MENU = [
 
   const cleanPhone = v => { let p = String(v).replace(/\D/g, ""); if (p.length === 12 && p.startsWith("91")) p = p.slice(2); return /^[6-9]\d{9}$/.test(p) ? p : ""; };
 
+  function confetti(){
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cols = ["#C8813A", "#E8A93B", "#9C3D22", "#3FA36B", "#F3E2C7"];
+    for (let k = 0; k < 28; k++) {
+      const s = document.createElement("span");
+      s.className = "confetti";
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.background = cols[k % cols.length];
+      s.style.setProperty("--x", (Math.random() * 120 - 60) + "px");
+      s.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+      s.style.animationDelay = Math.random() * .3 + "s";
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 2200);
+    }
+  }
+
   // ---- Menu + cart
   const cart = {};
   const all = [];
   MENU.forEach((c, ci) => c.items.forEach((it, ii) => all.push(Object.assign({ id: ci + "-" + ii, cat: c.cat }, it))));
   let activeCat = MENU[0].cat;
   function renderTabs(){
-    $("tabs").innerHTML = MENU.map(c => `<button type="button" role="tab" aria-selected="${c.cat === activeCat}" data-c="${c.cat}">${c.cat}</button>`).join("");
+    $("tabs").innerHTML = MENU.map(c => `<button type="button" role="tab" aria-selected="${c.cat === activeCat}" data-c="${c.cat}">${icon(c.icon)}${c.cat}</button>`).join("");
   }
   function qtyHtml(id){
     const q = cart[id] || 0;
-    return q ? `<div class="qty"><button type="button" data-a="-" data-id="${id}" aria-label="Remove one">−</button><span>${q}</span><button type="button" data-a="+" data-id="${id}" aria-label="Add one">+</button></div>`
+    return q ? `<div class="qty"><button type="button" data-a="-" data-id="${id}" aria-label="Remove one">−</button><span class="q">${q}</span><button type="button" data-a="+" data-id="${id}" aria-label="Add one">+</button></div>`
              : `<div class="qty"><button type="button" class="add" data-a="+" data-id="${id}">Add</button></div>`;
   }
-  function renderItems(){
+  function renderItems(popId){
     $("items").innerHTML = all.filter(i => i.cat === activeCat).map(i => `
       <div class="item">
-        <span class="dot ${i.v ? "v" : "n"}" title="${i.v ? "Veg" : "Non-veg"}" aria-label="${i.v ? "Veg" : "Non-veg"}"></span>
+        <div class="thumb">${icon(i.i)}<span class="dot ${i.v ? "v" : "n"}" title="${i.v ? "Veg" : "Non-veg"}" aria-label="${i.v ? "Veg" : "Non-veg"}"></span></div>
         <div class="info"><div class="nm">${i.n}</div><div class="ds">${i.d}</div><div class="price">${rs(i.p)}</div></div>
-        ${qtyHtml(i.id)}
+        <div data-row="${i.id}">${qtyHtml(i.id)}</div>
       </div>`).join("");
+    if (popId) { const q = document.querySelector(`[data-row="${popId}"] .q`); if (q) q.classList.add("pop"); }
   }
   $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; activeCat = b.dataset.c; renderTabs(); renderItems(); });
   document.addEventListener("click", e => {
@@ -297,7 +501,7 @@ const MENU = [
     const id = b.dataset.id;
     cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
     if (!cart[id]) delete cart[id];
-    renderItems(); renderCart();
+    renderItems(id); renderCart();
   });
 
   let orderType = "Dine-in";
@@ -333,8 +537,7 @@ const MENU = [
   document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
     orderType = b.dataset.t;
     document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b));
-    const lab = $("o-extra-label");
-    lab.firstChild.textContent = orderType === "Dine-in" ? "Table number" : orderType === "Delivery" ? "Delivery address" : "Pickup time";
+    $("o-extra-label").firstChild.textContent = orderType === "Dine-in" ? "Table number" : orderType === "Delivery" ? "Delivery address" : "Pickup time";
     renderSheet();
   }));
   ["o-name", "o-extra"].forEach(id => $(id).addEventListener("input", renderSheet));
@@ -348,7 +551,7 @@ const MENU = [
   // ---- Wi-Fi
   $("wifi-copy").addEventListener("click", () => {
     const b = $("wifi-copy");
-    const done = () => { b.textContent = "Password copied"; setTimeout(() => b.textContent = "Copy password", 2000); };
+    const done = () => { b.textContent = "✓ Password copied"; setTimeout(() => b.textContent = "Copy password", 2000); };
     const fallback = () => { const r = document.createRange(); r.selectNodeContents($("wifi-pass")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected, now copy it"; };
     try { navigator.clipboard.writeText(CONFIG.wifi.password).then(done, fallback); } catch(e){ fallback(); }
     ev("wifi_copy");
@@ -356,10 +559,12 @@ const MENU = [
 
   // ---- Loyalty
   const demoStamps = {};
+  let shown = 0;
   function drawStamps(n){
     const need = CONFIG.loyalty.stampsNeeded;
-    $("stamps").innerHTML = Array.from({ length: need }, (_, i) => `<span class="stamp ${i < n ? "on" : ""}" aria-hidden="true">${i < n ? "☕" : i + 1}</span>`).join("")
-      + `<span class="small muted" style="position:absolute;left:-9999px">${n} of ${need} stamps</span>`;
+    $("stamps").innerHTML = Array.from({ length: need }, (_, i) => `<span class="stamp ${i === need - 1 ? "free" : ""} ${i < n ? "on" : ""} ${i < n && i >= shown ? "new" : ""}" aria-hidden="true">${i < n ? `<svg><use href="#u-stamp"/></svg>` : i === need - 1 ? "FREE" : i + 1}</span>`).join("")
+      + `<span style="position:absolute;left:-9999px">${n} of ${need} stamps</span>`;
+    shown = n;
   }
   drawStamps(0);
   $("l-btn").addEventListener("click", async () => {
@@ -379,10 +584,12 @@ const MENU = [
       } catch(e) { res = { ok: false, error: "Couldn't reach the server. Please try again." }; }
     }
     btn.disabled = false; btn.textContent = "Add my stamp";
-    if (!res.ok) { msg.textContent = res.error || "Something went wrong."; if (res.stamps != null) drawStamps(res.stamps); return; }
+    if (!res.ok) { msg.textContent = res.error || "Something went wrong."; if (res.stamps != null) { shown = res.stamps; drawStamps(res.stamps); } return; }
+    if (res.stamps < shown) shown = 0;
     drawStamps(res.stamps);
     msg.className = "ok";
     msg.textContent = res.reward ? `🎉 Card complete: ${CONFIG.loyalty.reward}! Show this screen at the counter.` : `Stamp added. ${CONFIG.loyalty.stampsNeeded - res.stamps} more to go.`;
+    if (res.reward) confetti();
   });
 
   // ---- VIP Club
@@ -396,6 +603,7 @@ const MENU = [
     err.textContent = "";
     send({ type: "member", name, phone, birthday: $("f-bday").value, service: "", consent: "yes", consentText: $("consent-text").textContent });
     $("club-form").hidden = true; $("f-done").hidden = false;
+    confetti();
   });
 
   renderTabs(); renderItems(); renderCart();
