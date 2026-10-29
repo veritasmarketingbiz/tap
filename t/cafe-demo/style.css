@@ -1,0 +1,5 @@
+/* This café's own look. Loaded after ../tap.css, so anything here wins.
+   Start by changing the colours below; add more rules only if the owner wants a different style. */
+:root{
+  /* --bg:#F7F1E8;  --card:#FFFDF9;  --accent:#C8813A;  --accent-soft:#F6E7D3; */
+}

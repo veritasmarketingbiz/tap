@@ -9,7 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Mukta:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="../tap.css">
+<link rel="stylesheet" href="../tap.css">   <!-- shared base: don't change -->
+<link rel="stylesheet" href="style.css">    <!-- this café's own look (same folder) -->
 </head>
 <body>
 <!-- Illustrations (one sprite, reused everywhere) -->
@@ -68,42 +69,42 @@
         </svg>
       </div>
     </div>
-    <p class="ask">Enjoyed your coffee? ☕</p>
-    <a class="cta" id="review-btn" href="#" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">★★★★★</span><b id="review-text">Share your love on Google</b><small>Takes just 10 seconds</small></a>
+    <p class="ask" data-t="reviewAsk">Enjoyed your coffee? ☕</p>
+    <a class="cta" id="review-btn" href="#" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">★★★★★</span><b id="review-text">Share your love on Google</b><small data-t="reviewSub">Takes just 10 seconds</small></a>
   </header>
 
-  <a class="order" id="order-btn" href="#menu"><span class="oi" aria-hidden="true"><svg><use href="#u-bag"/></svg></span><span><b>Order now</b><small id="order-sub"></small></span><span class="arr" aria-hidden="true">↓</span></a>
+  <a class="order" id="order-btn" href="#menu"><span class="oi" aria-hidden="true"><svg><use href="#u-bag"/></svg></span><span><b data-t="orderTitle">Order now</b><small id="order-sub"></small></span><span class="arr" aria-hidden="true">↓</span></a>
 
   <div class="socials">
-    <a class="soc" id="insta-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-insta"/></svg><span><b>Tag us on Insta</b><small id="insta-sub">Post your coffee pic &amp; follow</small></span></a>
+    <a class="soc" id="insta-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-insta"/></svg><span><b data-t="instaTitle">Tag us on Insta</b><small id="insta-sub">Post your pic &amp; follow</small></span></a>
     <a class="soc" id="wa-btn" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#u-wag"/></svg><span><b id="wa-title"></b><small id="wa-sub"></small></span></a>
   </div>
 
   <nav class="tiles" aria-label="Quick links">
-    <a class="tile" href="#menu"><span><svg><use href="#u-menu"/></svg></span>Menu</a>
-    <a class="tile" href="#wifi" id="wifi-tile"><span><svg><use href="#u-wifi"/></svg></span>Wi-Fi</a>
-    <a class="tile" href="#loyalty"><span><svg><use href="#u-stamp"/></svg></span>Stamps</a>
-    <a class="tile" href="#club"><span><svg><use href="#u-crown"/></svg></span>VIP</a>
+    <a class="tile" href="#menu"><span><svg><use href="#u-menu"/></svg></span><em data-t="tileMenu" style="font-style:normal">Menu</em></a>
+    <a class="tile" href="#wifi" id="wifi-tile"><span><svg><use href="#u-wifi"/></svg></span><em data-t="tileWifi" style="font-style:normal">Wi-Fi</em></a>
+    <a class="tile" href="#loyalty"><span><svg><use href="#u-stamp"/></svg></span><em data-t="tileLoyalty" style="font-style:normal">Stamps</em></a>
+    <a class="tile" href="#club"><span><svg><use href="#u-crown"/></svg></span><em data-t="tileVip" style="font-style:normal">VIP</em></a>
   </nav>
 
   <section class="panel" id="menu" aria-labelledby="menu-h">
-    <h2 id="menu-h"><svg><use href="#u-menu"/></svg>Menu</h2>
+    <h2 id="menu-h"><svg><use href="#u-menu"/></svg><span data-t="menuTitle">Menu</span></h2>
     <div class="offer" id="direct-offer"></div>
     <div class="tabs" role="tablist" id="tabs"></div>
     <div id="items"></div>
   </section>
 
   <section class="panel" id="wifi" aria-labelledby="wifi-h">
-    <h2 id="wifi-h"><svg><use href="#u-wifi"/></svg>Free Wi-Fi</h2>
+    <h2 id="wifi-h"><svg><use href="#u-wifi"/></svg><span data-t="wifiTitle">Free Wi-Fi</span></h2>
     <div class="wifi">
       <span class="ic" aria-hidden="true"><svg><use href="#u-wifi"/></svg></span>
-      <dl><dt>Network</dt><dd id="wifi-name"></dd><dt>Password</dt><dd id="wifi-pass"></dd></dl>
+      <dl><dt data-t="wifiNetwork">Network</dt><dd id="wifi-name"></dd><dt data-t="wifiPassword">Password</dt><dd id="wifi-pass"></dd></dl>
     </div>
-    <button class="btn btn-ghost" id="wifi-copy" type="button">Copy password</button>
+    <button class="btn btn-ghost" id="wifi-copy" type="button" data-t="wifiCopy">Copy password</button>
   </section>
 
   <section class="panel" id="loyalty" aria-labelledby="loy-h">
-    <h2 id="loy-h"><svg><use href="#u-stamp"/></svg>Coffee Card</h2>
+    <h2 id="loy-h"><svg><use href="#u-stamp"/></svg><span data-t="loyaltyTitle">Coffee Card</span></h2>
     <span class="ribbon">🎁 <span id="loy-ribbon"></span></span>
     <div class="kraft">
       <div class="kt"><span class="bn"></span><span id="loy-short"></span></div>
@@ -111,57 +112,57 @@
       <div class="stamps" id="stamps" aria-live="polite"></div>
     </div>
     <p class="muted small" id="loy-desc"></p>
-    <label for="l-phone">Your mobile number<input id="l-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
-    <label for="l-code">Today's code (ask at the counter)<input id="l-code" inputmode="numeric" maxlength="6" placeholder="4-digit code"></label>
+    <label for="l-phone"><span data-t="loyaltyPhone">Your mobile number</span><input id="l-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+    <label for="l-code"><span data-t="loyaltyCode">Today's code (ask at the counter)</span><input id="l-code" inputmode="numeric" maxlength="6" placeholder="4-digit code"></label>
     <p class="err" id="l-msg" role="status"></p>
-    <button class="btn btn-primary" id="l-btn" type="button">Add my stamp</button>
+    <button class="btn btn-primary" id="l-btn" type="button" data-t="loyaltyButton">Add my stamp</button>
   </section>
 
   <section class="panel" id="club" aria-labelledby="club-h">
     <div class="vip">
-      <div class="vt"><span class="lbl">MEMBERS ONLY</span><svg aria-hidden="true"><use href="#u-crown"/></svg></div>
-      <h2 id="club-h" class="gold" style="font-size:30px;margin-top:6px">VIP Club</h2>
+      <div class="vt"><span class="lbl" data-t="vipLabel">MEMBERS ONLY</span><svg aria-hidden="true"><use href="#u-crown"/></svg></div>
+      <h2 id="club-h" class="gold" style="font-size:30px;margin-top:6px" data-t="vipTitle">VIP Club</h2>
       <div class="chip" aria-hidden="true"></div>
       <div class="num"><span>•••• •••• VIP</span><b class="gold bn"></b></div>
     </div>
-    <p style="font-weight:600">What you get as a VIP</p>
+    <p style="font-weight:600" data-t="vipPerksTitle">What you get as a VIP</p>
     <ul class="perks" id="perks"></ul>
     <form id="club-form" novalidate>
       <div style="display:flex;flex-direction:column;gap:10px">
-        <label for="f-name">Name<input id="f-name" autocomplete="name" maxlength="60"></label>
-        <label for="f-phone">WhatsApp number<input id="f-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
-        <label for="f-bday">Birthday (optional)<input id="f-bday" type="date"></label>
+        <label for="f-name"><span data-t="formName">Name</span><input id="f-name" autocomplete="name" maxlength="60"></label>
+        <label for="f-phone"><span data-t="formWhatsapp">WhatsApp number</span><input id="f-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+        <label for="f-bday"><span data-t="formBirthday">Birthday (optional)</span><input id="f-bday" type="date"></label>
         <label class="check" for="f-consent"><input id="f-consent" type="checkbox"><span id="consent-text"></span></label>
         <p class="err" id="f-err" role="alert"></p>
-        <button class="btn btn-primary" id="f-btn" type="submit">👑 Join VIP Club</button>
-        <p class="free-note">Free to join · No spam · Reply STOP anytime</p>
+        <button class="btn btn-primary" id="f-btn" type="submit" data-t="vipButton">👑 Join VIP Club</button>
+        <p class="free-note" data-t="vipNote">Free to join · No spam · Reply STOP anytime</p>
       </div>
     </form>
     <div class="done" id="f-done" hidden>
       <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="none" stroke="var(--ok)" stroke-width="4"/><path d="M21 33l8 8 15-17" fill="none" stroke="var(--ok)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <p class="ok">You're in! Show this screen at the counter for your welcome offer.</p>
+      <p class="ok" data-t="vipDone">You're in! Show this screen at the counter for your welcome offer.</p>
     </div>
   </section>
 
-  <p class="feedback"><a id="fb-btn" href="#" target="_blank" rel="noopener">Something not right? Tell the owner directly</a></p>
+  <p class="feedback"><a id="fb-btn" href="#" target="_blank" rel="noopener" data-t="feedback">Something not right? Tell the owner directly</a></p>
   <p class="foot"><span id="timings"></span><br>Your details are shared only with <span class="bn"></span> and Veritas Tap, who runs this page for them. · Powered by <a href="#" id="powered" target="_blank" rel="noopener">Veritas</a></p>
 </main>
 
 <div class="cartbar" id="cartbar" hidden>
-  <button class="btn btn-primary" id="cart-open" type="button"><span id="cart-count"></span><span>View order →</span></button>
+  <button class="btn btn-primary" id="cart-open" type="button"><span id="cart-count"></span><span data-t="cartView">View order →</span></button>
 </div>
 
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-h">
   <div class="inner">
-    <h2 id="sheet-h">Your order</h2>
+    <h2 id="sheet-h" data-t="cartTitle">Your order</h2>
     <div id="sheet-items"></div>
     <div class="seg" role="group" aria-label="Order type">
       <button type="button" data-t="Dine-in" aria-pressed="true">Dine-in</button>
       <button type="button" data-t="Takeaway" aria-pressed="false">Takeaway</button>
       <button type="button" data-t="Delivery" aria-pressed="false">Delivery</button>
     </div>
-    <label for="o-name">Name<input id="o-name" autocomplete="name" maxlength="60"></label>
-    <label for="o-phone">WhatsApp number<input id="o-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+    <label for="o-name"><span data-t="formName">Name</span><input id="o-name" autocomplete="name" maxlength="60"></label>
+    <label for="o-phone"><span data-t="formWhatsapp">WhatsApp number</span><input id="o-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
     <p class="muted small" style="margin-top:-8px">Used for your order and to recognise you on your next visit.</p>
     <label for="o-extra" id="o-extra-label">Table number<input id="o-extra" maxlength="160"></label>
     <div>
@@ -170,28 +171,28 @@
       <div class="sum total"><span>Total</span><span class="price" id="s-total"></span></div>
     </div>
     <p class="err" id="o-err" role="alert"></p>
-    <a class="btn btn-primary" id="send-order" href="#" target="_blank" rel="noopener"><svg><use href="#u-wa"/></svg>Send order on WhatsApp</a>
-    <button class="btn btn-ghost" id="sheet-close" type="button">Keep browsing</button>
+    <a class="btn btn-primary" id="send-order" href="#" target="_blank" rel="noopener"><svg><use href="#u-wa"/></svg><span data-t="sendOrder">Send order on WhatsApp</span></a>
+    <button class="btn btn-ghost" id="sheet-close" type="button" data-t="keepBrowsing">Keep browsing</button>
   </div>
 </div>
 
 <div class="sheet" id="cel" hidden role="dialog" aria-modal="true" aria-labelledby="cel-h">
 <div class="inner"><form id="cel-form" novalidate style="display:flex;flex-direction:column;gap:12px">
-<h2 id="cel-h">🎉 Plan your celebration</h2>
-<p class="muted small">Tell us a little and we'll get back to you on WhatsApp.</p>
+<h2 id="cel-h" data-t="celTitle">🎉 Plan your celebration</h2>
+<p class="muted small" data-t="celIntro">Tell us a little and we'll get back to you on WhatsApp.</p>
 <div class="chips2" role="group" aria-label="Occasion" id="cel-occ"></div>
 <div class="row2"><label for="c-date">Date<input id="c-date" type="date"></label><label for="c-people">People<input id="c-people" type="number" inputmode="numeric" min="1" max="500" placeholder="e.g. 12"></label></div>
-<label for="c-name">Your name<input id="c-name" autocomplete="name" maxlength="60"></label>
-<label for="c-phone">WhatsApp number<input id="c-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
+<label for="c-name"><span data-t="formName">Your name</span><input id="c-name" autocomplete="name" maxlength="60"></label>
+<label for="c-phone"><span data-t="formWhatsapp">WhatsApp number</span><input id="c-phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" maxlength="14"></label>
 <label class="check" for="c-consent"><input id="c-consent" type="checkbox"><span id="c-consent-text"></span></label>
 <p class="err" id="c-err" role="alert"></p>
-<button class="btn btn-primary" type="submit" id="c-btn">Submit details</button>
+<button class="btn btn-primary" type="submit" id="c-btn" data-t="celButton">Submit details</button>
 </form>
 <div class="done" id="c-done" hidden>
 <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="none" stroke="var(--ok)" stroke-width="4"/><path d="M21 33l8 8 15-17" fill="none" stroke="var(--ok)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 <p class="ok" id="c-done-text"></p>
 </div>
-<button class="btn btn-ghost" id="cel-close" type="button">Close</button>
+<button class="btn btn-ghost" id="cel-close" type="button" data-t="close">Close</button>
 </div>
 </div>
 <script>
@@ -200,33 +201,62 @@ const CONFIG = {
   clientId:    "cafe-demo",
   name:        "Veritas Coffee Café",
   tagline:     "Coffee · Shakes · Bites — Hudson Lane, GTB Nagar",
-  initial:     "V",
-  brandColor:  "#3B2418",                   // main colour (hero, buttons)
+  initial:     "V",                          // shown if there is no logo
+  logo:        "",                           // e.g. "logo.png" (put the file in this café's folder)
+  heroImage:   "",                           // e.g. "hero.jpg": café / signature-dish photo instead of the coffee cup
+  brandColor:  "#3B2418",                    // main colour (hero, buttons)
   reviewUrl:   "https://search.google.com/local/writereview?placeid=ChIJC3OxEhr9DDkRDjOj9V1NVYA",
   instagram:   "https://www.instagram.com/veritasmarketingsolutions/",
-  whatsapp:    "919560216369",              // café's WhatsApp: country code + number, no +
-  ownerWhatsapp: "919560216369",            // for private feedback (can be the same)
-  wifi:        { name: "VeritasCafe_Guest", password: "coffee2026" },
-  directOffer: "10% off on takeaway and delivery orders placed here on WhatsApp",
-  directDiscount: 10,                       // % off for Takeaway / Delivery
-  reviewText:  "Share your love on Google",
   instaHandle: "@veritasmarketingsolutions", // copied when the Insta button is tapped
-  instaText:   "Share your coffee pic & tag us",
-  waTitle:     "Celebrate with us",
-  waText:      "Birthdays, anniversaries & parties",
-  waMessage:   "I'd like to plan a celebration.",   // backup only: used if the form cannot open
+  whatsapp:    "919999999999",               // café's WhatsApp: country code + number, no +
+  ownerWhatsapp: "919999999999",             // for private feedback (can be the same)
+  wifi:        { name: "VeritasCafe_Guest", password: "coffee2026" },   // or null to hide Wi-Fi
+
+  // ---- What to show (true = on, false = off)
+  show: {
+    ordering:  true,      // false = menu only (dine-in cafés): no Add buttons, no cart, no "Order now"
+    insta:     true,
+    celebrate: true,
+    loyalty:   true,
+    vip:       true,
+    feedback:  true
+  },
+
+  // ---- Offer banner at the very top (leave text "" for none). Hides itself after "until".
+  offerBanner: { emoji: "🪔", text: "Diwali special: free dessert with every 2 coffees", sub: "Till 12 Nov · show this at the counter", until: "2026-11-12", link: "#menu" },
+
+  directOffer: "10% off on takeaway and delivery orders placed here on WhatsApp",   // "" = none
+  directDiscount: 10,                        // % off for Takeaway / Delivery
   occasions:   ["Birthday", "Anniversary", "Party", "Other"],   // chips in the celebration form
-orderText:   "Pick from menu · 10% off takeaway & delivery",
+  waMessage:   "I'd like to plan a celebration.",               // backup only, if the form cannot open
   loyalty:     { stampsNeeded: 5, reward: "your 5th coffee is free", ribbon: "5th coffee on us", big: "Your <em>5th coffee</em> is on us!" },
-  vipPerks: [                               // what VIP members get (confirm with the café)
+  vipPerks: [                                // only perks the owner agreed to
     { e: "🍪", t: "Welcome treat", s: "Free cookie with your next coffee" },
     { e: "🎂", t: "Birthday surprise", s: "A free dessert in your birthday week" },
     { e: "⚡", t: "First to know", s: "New menu drops before anyone else" },
     { e: "🏷️", t: "Members-only offers", s: "Special deals on WhatsApp, only for VIPs" } ],
   timings:     "Open daily · 11 AM – 11 PM",
-  hours:       { open: 11, close: 23 },     // 24-hour clock, for the "Open now" badge
-  scriptUrl:   "https://script.google.com/macros/s/AKfycbxDnkt3I7aBZkJrXqOqQwkGY17-4kuwpGDkrvmeU_nwihgIceRyizMAxtexM5J1wH08/exec",                          // Google Apps Script web app URL
-  poweredBy:   "https://instagram.com/"
+  hours:       { open: 11, close: 23 },      // 24-hour clock, for the "Open now" badge
+  scriptUrl:   "",                           // Google Apps Script web app URL ("" = demo mode)
+  poweredBy:   "https://instagram.com/",
+
+  // ---- The café's own words. Delete any line to use the default shown in tap.js.
+  text: {
+    reviewAsk:    "Enjoyed your coffee? ☕",
+    reviewText:   "Share your love on Google",
+    orderTitle:   "Order now",
+    orderText:    "Pick from menu · 10% off takeaway & delivery",
+    instaTitle:   "Tag us on Insta",
+    instaText:    "Share your coffee pic & tag us",
+    waTitle:      "Celebrate with us",
+    waText:       "Birthdays, anniversaries & parties",
+    tileLoyalty:  "Stamps",
+    tileVip:      "VIP",
+    loyaltyTitle: "Coffee Card",
+    vipTitle:     "VIP Club",
+    vipPerksTitle:"What you get as a VIP",
+    vipButton:    "👑 Join VIP Club"
+  }
 };
 /* icons: cup, iced, frappe, shake, smoothie, fries, bread, popcorn, sandwich, pasta, pizza, burger */
 const MENU = [
