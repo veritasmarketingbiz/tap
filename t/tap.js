@@ -1,10 +1,43 @@
-/* Veritas Tap · shared engine for every café page. Each page defines CONFIG and MENU, then loads ../tap.js. Edit once, all cafés update. */
+/* Veritas Tap · shared engine for every café page (v2).
+   Each page defines CONFIG and MENU, then loads ../tap.js. Edit once, all cafés update.
+   Words on the page come from CONFIG.text (anything left out uses the default below).
+   Data sent to the Google Sheet always uses the same internal codes (review_click, Loyalty, Members…), whatever the page calls them. */
 (function(){
   const $ = id => document.getElementById(id);
   const source = (new URLSearchParams(location.search).get("s") || "table").slice(0, 40);
   const device = /iPhone|iPad/.test(navigator.userAgent) ? "iPhone" : /Android/.test(navigator.userAgent) ? "Android" : "Other";
   const rs = n => "₹" + Math.round(n).toLocaleString("en-IN");
   const demo = !CONFIG.scriptUrl;
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  // ---- Words on the page (defaults; each café can override any of them in CONFIG.text)
+  const T = Object.assign({
+    openNow: "Open now", closedNow: "Closed now",
+    reviewAsk: "Enjoyed your coffee? ☕", reviewText: "Share your love on Google", reviewSub: "Takes just 10 seconds",
+    orderTitle: "Order now", orderText: "",
+    instaTitle: "Tag us on Insta", instaText: "Post your pic & follow",
+    waTitle: "Celebrate with us", waText: "Birthdays, anniversaries & parties",
+    tileMenu: "Menu", tileWifi: "Wi-Fi", tileLoyalty: "Stamps", tileVip: "VIP",
+    menuTitle: "Menu", addButton: "Add",
+    wifiTitle: "Free Wi-Fi", wifiNetwork: "Network", wifiPassword: "Password", wifiCopy: "Copy password", wifiCopied: "✓ Password copied",
+    loyaltyTitle: "Coffee Card", loyaltyPhone: "Your mobile number", loyaltyCode: "Today's code (ask at the counter)", loyaltyButton: "Add my stamp",
+    vipLabel: "MEMBERS ONLY", vipTitle: "VIP Club", vipPerksTitle: "What you get as a VIP", vipButton: "👑 Join VIP Club",
+    vipNote: "Free to join · No spam · Reply STOP anytime", vipDone: "You're in! Show this screen at the counter for your welcome offer.",
+    formName: "Name", formWhatsapp: "WhatsApp number", formBirthday: "Birthday (optional)",
+    celTitle: "🎉 Plan your celebration", celIntro: "Tell us a little and we'll get back to you on WhatsApp.", celButton: "Submit details", close: "Close",
+    feedback: "Something not right? Tell the owner directly",
+    cartView: "View order →", cartTitle: "Your order", sendOrder: "Send order on WhatsApp", keepBrowsing: "Keep browsing"
+  },
+  // older pages kept these words at the top level of CONFIG; still honoured
+  ["reviewText", "orderText", "instaText", "waTitle", "waText"].reduce((o, k) => { if (CONFIG[k] != null) o[k] = CONFIG[k]; return o; }, {}),
+  CONFIG.text || {});
+
+  // ---- What to show (everything on unless the café turns it off)
+  const show = Object.assign({ ordering: true, insta: true, celebrate: true, wifi: true, loyalty: true, vip: true, feedback: true }, CONFIG.show || {});
+  if (CONFIG.ordering === false) show.ordering = false;
+  if (!CONFIG.wifi) show.wifi = false;
+  const ordering = show.ordering;
+
 // anonymous visitor ID on this phone (no name or number) + how many different days it opened this café's page
 let vid = "", visit = 1;
 try {
@@ -21,40 +54,63 @@ let me = {};
 try { me = JSON.parse(localStorage.getItem(pk) || "{}") || {}; } catch (e) {}
 const remember = (phone, name) => { if (phone) me.phone = phone; if (name) me.name = name; try { localStorage.setItem(pk, JSON.stringify(me)); } catch (e) {} };
   const icon = k => `<svg aria-hidden="true"><use href="#i-${k || "cup"}"/></svg>`;
+  const setText = (id, v) => { const e = $(id); if (e && v != null) e.textContent = v; };
 
   // ---- Apply config
-  document.documentElement.style.setProperty("--brand", CONFIG.brandColor);
-  document.querySelector('meta[name="theme-color"]').content = CONFIG.brandColor;
+  // main colour comes from CONFIG.brandColor (all other colours/fonts: the café's style.css)
+  if (CONFIG.brandColor) { document.documentElement.style.setProperty("--brand", CONFIG.brandColor); document.querySelector('meta[name="theme-color"]').content = CONFIG.brandColor; }
   document.title = CONFIG.name;
+  // every element marked data-t="key" gets the café's word for it
+  document.querySelectorAll("[data-t]").forEach(e => { const v = T[e.dataset.t]; if (v != null && v !== "") e.textContent = v; });
   $("biz-name").textContent = CONFIG.name;
   document.querySelectorAll(".bn").forEach(e => e.textContent = CONFIG.name);
   $("biz-tag").textContent = CONFIG.tagline;
-  $("logo").textContent = CONFIG.initial;
+  // logo (image file in the café's folder) or the initial letter
+  if (CONFIG.logo) { $("logo").classList.add("has-img"); $("logo").innerHTML = `<img src="${esc(CONFIG.logo)}" alt="">`; }
+  else $("logo").textContent = CONFIG.initial;
+  // hero picture: a photo of the café / signature dish instead of the coffee cup
+  const cupwrap = document.querySelector(".cupwrap");
+  if (CONFIG.heroImage && cupwrap) { cupwrap.classList.add("has-img"); cupwrap.innerHTML = `<img src="${esc(CONFIG.heroImage)}" alt="">`; }
   $("timings").textContent = CONFIG.timings;
-  $("direct-offer").textContent = "🛵 " + CONFIG.directOffer;
-  $("review-text").textContent = CONFIG.reviewText;
-  $("insta-sub").textContent = CONFIG.instaText;
+  $("direct-offer").textContent = CONFIG.directOffer ? "🛵 " + CONFIG.directOffer : "";
+  $("direct-offer").hidden = !CONFIG.directOffer || !ordering;
+  setText("review-text", T.reviewText);
+  setText("insta-sub", T.instaText);
+  setText("wa-title", T.waTitle);
+  setText("wa-sub", T.waText);
+  setText("order-sub", T.orderText);
   $("loy-ribbon").textContent = CONFIG.loyalty.ribbon;
   $("loy-big").innerHTML = CONFIG.loyalty.big;
   $("perks").innerHTML = CONFIG.vipPerks.map(p => `<li><span aria-hidden="true">${p.e}</span><div><b>${p.t}</b><small>${p.s}</small></div></li>`).join("");
-  if (!CONFIG.wifi) { $("wifi").hidden = true; $("wifi-tile").hidden = true; }
   if (CONFIG.wifi) { $("wifi-name").textContent = CONFIG.wifi.name; $("wifi-pass").textContent = CONFIG.wifi.password; }
-  $("loy-short").textContent = `${CONFIG.loyalty.stampsNeeded} stamps = reward`;
-  $("loy-desc").textContent = `Thank you for coming back! Get a stamp on every visit. Collect ${CONFIG.loyalty.stampsNeeded} and ${CONFIG.loyalty.reward}.`;
+  $("loy-short").textContent = CONFIG.loyalty.short || `${CONFIG.loyalty.stampsNeeded} stamps = reward`;
+  $("loy-desc").textContent = CONFIG.loyalty.desc || `Thank you for coming back! Get a stamp on every visit. Collect ${CONFIG.loyalty.stampsNeeded} and ${CONFIG.loyalty.reward}.`;
+  // consent texts always name the café (legal wording: not changed per café)
   $("consent-text").textContent = `I agree to receive offers and updates from ${CONFIG.name} on WhatsApp. I can stop anytime by replying STOP.`;
   $("review-btn").href = CONFIG.reviewUrl;
   $("insta-btn").href = CONFIG.instagram;
-  $("wa-btn").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(`Hi ${CONFIG.name}, ${CONFIG.waMessage}`);
-  $("wa-title").textContent = CONFIG.waTitle;
-  $("wa-sub").textContent = CONFIG.waText;
-  $("order-sub").textContent = CONFIG.orderText;
+  $("wa-btn").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(`Hi ${CONFIG.name}, ${CONFIG.waMessage || "I'd like to plan a celebration."}`);
   $("fb-btn").href = "https://wa.me/" + CONFIG.ownerWhatsapp + "?text=" + encodeURIComponent(`Feedback for ${CONFIG.name}: `);
   $("powered").href = CONFIG.poweredBy;
   if (demo) $("demo-note").hidden = false;
+
+  // ---- Show / hide sections
+  const hide = (on, ...els) => els.forEach(e => { if (e) e.hidden = !on; });
+  const tile = h => document.querySelector(`.tile[href="${h}"]`);
+  hide(show.wifi, $("wifi"), tile("#wifi"));
+  hide(show.loyalty, $("loyalty"), tile("#loyalty"));
+  hide(show.vip, $("club"), tile("#club"));
+  hide(show.insta, $("insta-btn"));
+  hide(show.celebrate, $("wa-btn"));
+  hide(show.feedback, document.querySelector(".feedback"));
+  hide(ordering, $("order-btn"));
+  const tiles = document.querySelector(".tiles");
+  if (tiles) { const n = [...tiles.children].filter(t => !t.hidden).length; tiles.style.gridTemplateColumns = `repeat(${Math.max(1, n)},1fr)`; }
+
   if (CONFIG.hours) {
     const h = new Date().getHours(), o = CONFIG.hours.open, c = CONFIG.hours.close;
     const open = o < c ? (h >= o && h < c) : (h >= o || h < c);
-    $("open-text").textContent = open ? "Open now" : "Closed now";
+    $("open-text").textContent = open ? T.openNow : T.closedNow;
     $("open-badge").classList.toggle("closed", !open);
   } else $("open-badge").hidden = true;
 
@@ -67,6 +123,18 @@ const remember = (phone, name) => { if (phone) me.phone = phone; if (name) me.na
   }
   const ev = (event, details) => send({ type: "event", event, details: details || "" });
   ev("page_open");
+
+  // ---- Offer banner at the very top (e.g. Diwali). CONFIG.offerBanner = { text, sub, emoji, until: "2026-11-12", link: "#menu" }
+  const ob = CONFIG.offerBanner;
+  if (ob && ob.text && (!ob.until || new Date().toISOString().slice(0, 10) <= ob.until)) {
+    const a = document.createElement("a");
+    a.className = "obanner"; a.href = ob.link || "#menu";
+    a.innerHTML = `<span class="oe" aria-hidden="true">${esc(ob.emoji || "🎉")}</span><span class="ot">${esc(ob.text)}${ob.sub ? `<small>${esc(ob.sub)}</small>` : ""}</span><span class="oa" aria-hidden="true">›</span>`;
+    a.addEventListener("click", () => ev("offer_click", ob.text));
+    const hero = document.querySelector(".hero");
+    hero.parentNode.insertBefore(a, hero);
+  }
+
   $("review-btn").addEventListener("click", () => ev("review_click"));
   function toast(t){ const d = document.createElement("div"); d.className = "toast"; d.setAttribute("role", "status"); d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3500); }
   $("insta-btn").addEventListener("click", () => {
@@ -74,7 +142,8 @@ const remember = (phone, name) => { if (phone) me.phone = phone; if (name) me.na
     if (CONFIG.instaHandle) { try { navigator.clipboard.writeText(CONFIG.instaHandle).then(() => toast(`✓ ${CONFIG.instaHandle} copied. Paste it in your post or story!`), () => {}); } catch(e){} }
   });
   $("wa-btn").addEventListener("click", e => { e.preventDefault(); ev("whatsapp_click"); $("cel").hidden = false; });
-document.querySelectorAll(".tile").forEach(t => t.addEventListener("click", () => ev("tile_click", t.textContent.trim())));
+  // tile clicks are logged with a fixed key (menu / wifi / loyalty / vip), not the café's word for it
+  document.querySelectorAll(".tile").forEach(t => t.addEventListener("click", () => ev("tile_click", (t.getAttribute("href") || "").replace("#", "").replace("club", "vip") || t.textContent.trim())));
   $("order-btn").addEventListener("click", () => ev("order_now_click"));
   $("fb-btn").addEventListener("click", () => ev("feedback_click"));
 
@@ -97,8 +166,9 @@ document.querySelectorAll(".tile").forEach(t => t.addEventListener("click", () =
   }
 
   // ---- Celebration enquiry (saved to the Veritas Sheet + email alert; nothing goes to WhatsApp)
-let occ = CONFIG.occasions[0];
-$("cel-occ").innerHTML = CONFIG.occasions.map((o, i) => `<button type="button" aria-pressed="${i === 0}" data-o="${o}">${o}</button>`).join("");
+const occasions = CONFIG.occasions || ["Birthday", "Anniversary", "Party", "Other"];
+let occ = occasions[0];
+$("cel-occ").innerHTML = occasions.map((o, i) => `<button type="button" aria-pressed="${i === 0}" data-o="${esc(o)}">${esc(o)}</button>`).join("");
 $("cel-occ").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; occ = b.dataset.o; $("cel-occ").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); });
 $("c-consent-text").textContent = `Share my details with ${CONFIG.name} to plan my celebration and reply to me on WhatsApp.`;
 const closeCel = () => { $("cel").hidden = true; if (!$("c-done").hidden) { $("cel-form").reset(); $("cel-form").hidden = false; $("c-done").hidden = true; } };
@@ -119,18 +189,19 @@ $("c-done").hidden = false;
 confetti();
 });
 
-// ---- Menu + cart
+// ---- Menu + cart (with ordering off, the menu is view-only: no Add buttons, no cart)
   const cart = {};
   const all = [];
   MENU.forEach((c, ci) => c.items.forEach((it, ii) => all.push(Object.assign({ id: ci + "-" + ii, cat: c.cat }, it))));
   let activeCat = MENU[0].cat;
   function renderTabs(){
-    $("tabs").innerHTML = MENU.map(c => `<button type="button" role="tab" aria-selected="${c.cat === activeCat}" data-c="${c.cat}">${icon(c.icon)}${c.cat}</button>`).join("");
+    $("tabs").innerHTML = MENU.map(c => `<button type="button" role="tab" aria-selected="${c.cat === activeCat}" data-c="${esc(c.cat)}">${icon(c.icon)}${esc(c.cat)}</button>`).join("");
   }
   function qtyHtml(id){
+    if (!ordering) return "";
     const q = cart[id] || 0;
     return q ? `<div class="qty"><button type="button" data-a="-" data-id="${id}" aria-label="Remove one">−</button><span class="q">${q}</span><button type="button" data-a="+" data-id="${id}" aria-label="Add one">+</button></div>`
-             : `<div class="qty"><button type="button" class="add" data-a="+" data-id="${id}">Add</button></div>`;
+             : `<div class="qty"><button type="button" class="add" data-a="+" data-id="${id}">${esc(T.addButton)}</button></div>`;
   }
   function renderItems(popId){
     $("items").innerHTML = all.filter(i => i.cat === activeCat).map(i => `
@@ -143,7 +214,7 @@ confetti();
   }
   $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; activeCat = b.dataset.c; renderTabs(); renderItems(); });
   document.addEventListener("click", e => {
-    const b = e.target.closest("[data-a]"); if (!b) return;
+    const b = e.target.closest("[data-a]"); if (!b || !ordering) return;
     const id = b.dataset.id;
     if (b.dataset.a === "+") ev("add_to_cart", all.find(x => x.id === id).n);
 cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
@@ -155,12 +226,12 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
   const lines = () => Object.keys(cart).map(id => { const i = all.find(x => x.id === id); return { n: i.n, q: cart[id], t: i.p * cart[id] }; });
   function totals(){
     const sub = lines().reduce((s, l) => s + l.t, 0);
-    const disc = orderType === "Dine-in" ? 0 : Math.round(sub * CONFIG.directDiscount / 100);
+    const disc = orderType === "Dine-in" ? 0 : Math.round(sub * (CONFIG.directDiscount || 0) / 100);
     return { sub, disc, total: sub - disc };
   }
   function renderCart(){
     const count = Object.values(cart).reduce((a, b) => a + b, 0);
-    $("cartbar").hidden = count === 0;
+    $("cartbar").hidden = !ordering || count === 0;
     const t = totals();
     $("cart-count").textContent = `${count} item${count > 1 ? "s" : ""} · ${rs(t.sub)}`;
     if (!count) closeSheet();
@@ -206,7 +277,7 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
   // ---- Wi-Fi
   $("wifi-copy").addEventListener("click", () => {
     const b = $("wifi-copy");
-    const done = () => { b.textContent = "✓ Password copied"; setTimeout(() => b.textContent = "Copy password", 2000); };
+    const done = () => { b.textContent = T.wifiCopied; setTimeout(() => b.textContent = T.wifiCopy, 2000); };
     const fallback = () => { const r = document.createRange(); r.selectNodeContents($("wifi-pass")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected, now copy it"; };
     try { navigator.clipboard.writeText(CONFIG.wifi.password).then(done, fallback); } catch(e){ fallback(); }
     ev("wifi_copy");
@@ -238,7 +309,7 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
         res = await (await fetch(u)).json();
       } catch(e) { res = { ok: false, error: "Couldn't reach the server. Please try again." }; }
     }
-    btn.disabled = false; btn.textContent = "Add my stamp";
+    btn.disabled = false; btn.textContent = T.loyaltyButton;
     if (!res.ok) { msg.textContent = res.error || "Something went wrong."; if (res.stamps != null) { shown = res.stamps; drawStamps(res.stamps); } return; }
     if (res.stamps < shown) shown = 0;
     remember(phone);
@@ -248,7 +319,7 @@ cart[id] = Math.max(0, (cart[id] || 0) + (b.dataset.a === "+" ? 1 : -1));
     if (res.reward) confetti();
   });
 
-  // ---- VIP Club
+  // ---- VIP Club (whatever the café calls it, sign-ups go to the Members tab)
   $("club-form").addEventListener("submit", e => {
     e.preventDefault();
     const err = $("f-err");
